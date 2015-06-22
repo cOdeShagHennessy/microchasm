@@ -1,4 +1,5 @@
-module.exports = function (gulp, install, conflict, template, rename, _, inflection, inquirer, mkdirp) {
+module.exports = function (gulp, plugins, options) {
+//module.exports = function (gulp, install, conflict, template, rename, _, inflection, inquirer, mkdirp) {
     var path = require('path');
     var debug = require('gulp-debug');
 
@@ -49,42 +50,43 @@ module.exports = function (gulp, install, conflict, template, rename, _, inflect
 //            message: 'Include Tests?'
 //        }];
         //Ask
-        inquirer.prompt(prompts,
+        plugins.inquirer.prompt(prompts,
             function (answers) {
 //                if (!answers.moveon) {
 //                    return done();
 //                }
-                answers.appNameSlug = _.slugify(answers.appName);
+                answers.appNameSlug = plugins._.slugify(answers.appName);
                 answers.includeTests = answers.includeTests;
 
-                mkdirp('twiglet');
+                plugins.mkdirp('twiglet');
                 console.log('dir = ' + __dirname);
 
-                gulp.src(__dirname + '/../templates/twiglet/**').pipe(debug())
-                    .pipe(template(answers))
-                    .pipe(rename(function (file) {
+                //TODO: move non-templated code to be copied from ../../twiglet repo
+                gulp.src(__dirname + '/../templates/twiglet/**')//.pipe(debug())
+                    .pipe(plugins.template(answers))
+                    .pipe(plugins.rename(function (file) {
                         if (file.basename[0] === '_') {
                             file.basename = '.' + file.basename.slice(1);
                         }
                     }))
-                    .pipe(conflict('./'))
+                    .pipe(plugins.conflict('./'))
                     .pipe(gulp.dest('./twiglet'))
-                    .pipe(install());
+                    .pipe(plugins.install());
 
                 //
                 // Include tests
                 if (answers.includeTests) {
-                    mkdirp('samples/twiglet');
+                    plugins.mkdirp('samples/twiglet');
                     gulp.src(__dirname + '/../templates/samples/twiglet/**').pipe(debug())
-                        .pipe(template(answers))
-                        .pipe(rename(function (file) {
+                        .pipe(plugins.template(answers))
+                        .pipe(plugins.rename(function (file) {
                             if (file.basename[0] === '_') {
                                 file.basename = '.' + file.basename.slice(1);
                             }
                         }))
-                        .pipe(conflict('./'))
+                        .pipe(plugins.conflict('./'))
                         .pipe(gulp.dest('./samples/twiglet'))
-                        .pipe(install())
+                        .pipe(plugins.install())
                         .on('end', function () {
                             done();
                         });

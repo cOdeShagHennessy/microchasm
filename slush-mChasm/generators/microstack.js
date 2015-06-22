@@ -1,4 +1,5 @@
-module.exports = function (gulp, install, conflict, template, rename, _, inflection, inquirer, mkdirp) {
+module.exports = function (gulp, plugins) {
+//module.exports = function (gulp, install, conflict, template, rename, _, inflection, inquirer, mkdirp) {
     console.log('microstack loaded');
     var path = require('path');
     var debug = require('gulp-debug');
@@ -52,58 +53,59 @@ module.exports = function (gulp, install, conflict, template, rename, _, inflect
 //        }
         ];
         //Ask
-        inquirer.prompt(prompts,
+        plugins.inquirer.prompt(prompts,
             function (answers) {
 //                if (!answers.moveon) {
 //                    return done();
 //                }
-                answers.appNameSlug = _.slugify(answers.appName);
+                answers.appNameSlug = plugins._.slugify(answers.appName);
                 answers.includeTests = answers.includeTests;
 
-                mkdirp('microstack');
+                plugins.mkdirp('microstack');
                 console.log('dir = ' + __dirname);
 
+                //TODO: move non-templated code to be copied from ../../microstack repo
                 gulp.src(__dirname + '/../templates/microstack/*.*').pipe(debug())
-                    .pipe(template(answers))
-                    .pipe(rename(function (file) {
+                    .pipe(plugins.template(answers))
+                    .pipe(plugins.rename(function (file) {
                         if (file.basename[0] === '_') {
                             file.basename = '.' + file.basename.slice(1);
                         }
                     }))
-                    .pipe(conflict('./'))
+                    .pipe(plugins.conflict('./'))
                     .pipe(gulp.dest('./microstack'))
-                    .pipe(install())
+                    .pipe(plugins.install())
                     .on('end', function () {
 //                        done();
                     });
                 //
                 // Include tests
                 if (answers.includeTests) {
-                    mkdirp('microstack/test');
-                    mkdirp('samples/microstack');
+                    plugins.mkdirp('microstack/test');
+                    plugins.mkdirp('samples/microstack');
                     gulp.src(__dirname + '/../templates/microstack/test/**').pipe(debug())
-                        .pipe(template(answers))
-                        .pipe(rename(function (file) {
+                        .pipe(plugins.template(answers))
+                        .pipe(plugins.rename(function (file) {
                             if (file.basename[0] === '_') {
                                 file.basename = '.' + file.basename.slice(1);
                             }
                         }))
-                        .pipe(conflict('./'))
+                        .pipe(plugins.conflict('./'))
                         .pipe(gulp.dest('./microstack/test'))
-                        .pipe(install())
+                        .pipe(plugins.install())
                         .on('end', function () {
 //                        done();
                         });
                     gulp.src(__dirname + '/../templates/samples/microstack/**').pipe(debug())
-                        .pipe(template(answers))
-                        .pipe(rename(function (file) {
+                        .pipe(plugins.template(answers))
+                        .pipe(plugins.rename(function (file) {
                             if (file.basename[0] === '_') {
                                 file.basename = '.' + file.basename.slice(1);
                             }
                         }))
-                        .pipe(conflict('./'))
+                        .pipe(plugins.conflict('./'))
                         .pipe(gulp.dest('./samples/microstack'))
-                        .pipe(install())
+                        .pipe(plugins.install())
                         .on('end', function () {
                             done();
                         });

@@ -28,10 +28,12 @@ var plugins = require('gulp-load-plugins')({
     replaceString: /^gulp(-|\.)/, // what to remove from the name of the module when adding it to the context
     camelize: true, // if true, transforms hyphenated plugins names to camel case
     lazy: false, // whether the plugins should be lazy loaded on demand
-    rename: {"underscore.string": "underscoreString"} // a mapping of plugins to rename
+    rename: {"underscore.string": "_"} // a mapping of plugins to rename
 });
 console.log(plugins['debug']);
 
 //TODO: refactor to ues 'gulp-load-plugins' and pass plugins instead of the current list
-gulp = require('./generators/base')(gulp, plugins.install, plugins.conflict, plugins.template, plugins.rename, plugins.underscoreString, plugins.inflection, plugins.inquirer, plugins.mkdirp);
+var options = {};
+gulp = require('./generators/base')(gulp,plugins,options);
+//gulp = require('./generators/base')(gulp, plugins.install, plugins.conflict, plugins.template, plugins.rename, plugins.underscoreString, plugins.inflection, plugins.inquirer, plugins.mkdirp);
 //gulp = require('./generators/base')(gulp, install, conflict, template, rename, _, inflection, inquirer, mkdirp);
