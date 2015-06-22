@@ -1,0 +1,18 @@
+{
+  "dependencies": {
+    "gulp-conflict": "^0.1.1",
+    "gulp-debug": "^2.0.1",
+    "gulp-install": "^0.1.4",
+    "gulp-load-plugins": "^1.0.0-rc.1",
+    "gulp-rename": "^1.2.0",
+    "gulp-template": "^0.1.1",
+    "inflection": "^1.7.1",
+    "iniparser": "^1.0.5",
+    "inquirer": "^0.8.0",
+    "mkdirp": "^0.5.1",
+    "run-sequence": "^1.1.1",
+    "underscore.string": "^2.3.3"
+  },
+  "devDependencies": {
+  }
+}
