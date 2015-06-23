@@ -1,12 +1,12 @@
 {
   "name": "twiglet",
-  "version": "<%= appVersion %>",
+  "version": "<%= microChasmVersion %>",
   "scripts": {
     "test": "lab -v --colors --leaks ",
     "test-coverage": "lab -r html -o coverage.html"
   },
   "dependencies": {
-    "tracer": "^0.7.4",
+    "tracer": "^0.7.3",
     "colors": "^1.1.0"
   },
   "devDependencies": {

@@ -1,5 +1,5 @@
 /*
- * slush-slush-mchasm
+ * slush-mchasm
  * https://github.com/codeshaghennessy@gmail.com/slush-slush-mchasm
  *
  * Copyright (c) 2015, cOdeShag Hennessy

@@ -1,6 +1,6 @@
 {
   "name": "microstack",
-  "version": "<%= appVersion %>",
+  "version": "<%= microChasmVersion %>",
   "main" : "index.js",
   "scripts": {
     "test": "lab -v --colors --leaks",
