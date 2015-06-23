@@ -61,23 +61,41 @@ module.exports = function (gulp, plugins, options) {
                 plugins.mkdirp('twiglet');
                 console.log('dir = ' + __dirname);
 
-                //TODO: move non-templated code to be copied from ../../twiglet repo
-                gulp.src(__dirname + '/../templates/twiglet/**')//.pipe(debug())
+//                gulp.src(__dirname + '/../templates/twiglet/**')//.pipe(debug())
+                gulp.src(__dirname + '/../../twiglet/*.*')//.pipe(debug())
                     .pipe(plugins.template(answers))
                     .pipe(plugins.rename(function (file) {
                         if (file.basename[0] === '_') {
                             file.basename = '.' + file.basename.slice(1);
                         }
                     }))
-                    .pipe(plugins.conflict('./'))
+//                    .pipe(plugins.conflict('./'))
                     .pipe(gulp.dest('./twiglet'))
-                    .pipe(plugins.install());
+//                    .pipe(plugins.install())
+                    .on('end', function () {
+//                        done();
+                        //
+                        // Overwrite any templated files
+                        gulp.src(__dirname + '/../tempates/twiglet/*.*').pipe(debug())
+                            .pipe(plugins.template(answers))
+                            .pipe(plugins.rename(function (file) {
+                                if (file.basename[0] === '_') {
+                                    file.basename = '.' + file.basename.slice(1);
+                                }
+                            }))
+//                    .pipe(plugins.conflict('./'))
+                            .pipe(gulp.dest('./twiglet'))
+                            .pipe(plugins.install())
+                            .on('end', function () {
+//                        done();
+                            });
+                    });
 
                 //
                 // Include tests
                 if (answers.includeTests) {
-                    plugins.mkdirp('samples/twiglet');
-                    gulp.src(__dirname + '/../templates/samples/twiglet/**').pipe(debug())
+                    mkdirp('samples/twiglet');
+                    gulp.src(__dirname + '/../../samples/twiglet/**').pipe(debug())
                         .pipe(plugins.template(answers))
                         .pipe(plugins.rename(function (file) {
                             if (file.basename[0] === '_') {
@@ -90,7 +108,6 @@ module.exports = function (gulp, plugins, options) {
                         .on('end', function () {
                             done();
                         });
-                    ;
 
                 }
                 else

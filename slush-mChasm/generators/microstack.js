@@ -64,26 +64,43 @@ module.exports = function (gulp, plugins) {
                 plugins.mkdirp('microstack');
                 console.log('dir = ' + __dirname);
 
-                //TODO: move non-templated code to be copied from ../../microstack repo
-                gulp.src(__dirname + '/../templates/microstack/*.*').pipe(debug())
+//                gulp.src(__dirname + '/../templates/microstack/*.*').pipe(debug())
+                gulp.src(__dirname + '/../../microstack/*.*').pipe(debug())
                     .pipe(plugins.template(answers))
                     .pipe(plugins.rename(function (file) {
                         if (file.basename[0] === '_') {
                             file.basename = '.' + file.basename.slice(1);
                         }
                     }))
-                    .pipe(plugins.conflict('./'))
+//                    .pipe(plugins.conflict('./'))
                     .pipe(gulp.dest('./microstack'))
-                    .pipe(plugins.install())
+//                    .pipe(plugins.install())
                     .on('end', function () {
 //                        done();
+                        //
+                        // Overwrite any templated files
+                        gulp.src(__dirname + '/../templates/microstack/*.*').pipe(debug())
+                            .pipe(plugins.template(answers))
+                            .pipe(plugins.rename(function (file) {
+                                if (file.basename[0] === '_') {
+                                    file.basename = '.' + file.basename.slice(1);
+                                }
+                            }))
+//                    .pipe(plugins.conflict('./'))
+                            .pipe(gulp.dest('./microstack'))
+                            .pipe(plugins.install())
+                            .on('end', function () {
+//                        done();
+                            });
                     });
+
                 //
                 // Include tests
                 if (answers.includeTests) {
                     plugins.mkdirp('microstack/test');
                     plugins.mkdirp('samples/microstack');
-                    gulp.src(__dirname + '/../templates/microstack/test/**').pipe(debug())
+//                    gulp.src(__dirname + '/../templates/microstack/test/**').pipe(debug())
+                    gulp.src(__dirname + '/../../microstack/test/**').pipe(debug())
                         .pipe(plugins.template(answers))
                         .pipe(plugins.rename(function (file) {
                             if (file.basename[0] === '_') {
@@ -96,7 +113,7 @@ module.exports = function (gulp, plugins) {
                         .on('end', function () {
 //                        done();
                         });
-                    gulp.src(__dirname + '/../templates/samples/microstack/**').pipe(debug())
+                    gulp.src(__dirname + '/../../samples/microstack/**').pipe(debug())
                         .pipe(plugins.template(answers))
                         .pipe(plugins.rename(function (file) {
                             if (file.basename[0] === '_') {
