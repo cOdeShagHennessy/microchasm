@@ -47,9 +47,9 @@ module.exports = function (gulp, plugins, options) {
                         file.basename = '.' + file.basename.slice(1);
                     }
                 }))
-                .pipe(plugins.conflict('./'))
+//                .pipe(plugins.conflict('./'))
                 .pipe(gulp.dest('./microstack/test'))
-                .pipe(plugins.install())
+//                .pipe(plugins.install())
                 .on('end', function () {
                     gulp.src(__dirname + '/../../samples/microstack/**').pipe(debug())
                         .pipe(plugins.template(answers))
@@ -58,7 +58,7 @@ module.exports = function (gulp, plugins, options) {
                                 file.basename = '.' + file.basename.slice(1);
                             }
                         }))
-                        .pipe(plugins.conflict('./'))
+//                        .pipe(plugins.conflict('./'))
                         .pipe(gulp.dest('./samples/microstack'))
                         .pipe(plugins.install())
                         .on('end', function () {
