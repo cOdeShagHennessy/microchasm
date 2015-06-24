@@ -9,16 +9,9 @@
 'use strict';
 
 var gulp = require('gulp'),
-    install = require('gulp-install'),
-    conflict = require('gulp-conflict'),
-    template = require('gulp-template'),
-    rename = require('gulp-rename'),
-    _ = require('underscore.string'),
-    inquirer = require('inquirer'),
-    inflection = require('inflection'),
-    mkdirp = require('mkdirp'),
     path = require('path');
-
+//
+// dynamically load gulp plugins to pass to generators
 var plugins = require('gulp-load-plugins')({
     //pattern: ['gulp-*', 'gulp.*'], // the glob(s) to search for
     pattern: ['*'], // the glob(s) to search for
@@ -30,10 +23,8 @@ var plugins = require('gulp-load-plugins')({
     lazy: false, // whether the plugins should be lazy loaded on demand
     rename: {"underscore.string": "_"} // a mapping of plugins to rename
 });
-console.log(plugins['debug']);
+//console.log(plugins['debug']);
 
-//TODO: refactor to ues 'gulp-load-plugins' and pass plugins instead of the current list
 var options = {};
 gulp = require('./generators/base')(gulp,plugins,options);
-//gulp = require('./generators/base')(gulp, plugins.install, plugins.conflict, plugins.template, plugins.rename, plugins.underscoreString, plugins.inflection, plugins.inquirer, plugins.mkdirp);
-//gulp = require('./generators/base')(gulp, install, conflict, template, rename, _, inflection, inquirer, mkdirp);
+gulp = require('./generators/microservice')(gulp,plugins,options);

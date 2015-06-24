@@ -1,4 +1,4 @@
-# Slush Slush-mchasm [![Build Status](https://secure.travis-ci.org/codeshaghennessy@gmail.com/slush-mchasm.png?branch=master)](https://travis-ci.org/codeshaghennessy@gmail.com/slush-mchasm) [![NPM version](https://badge-me.herokuapp.com/api/npm/slush-mchasm.png)](http://badges.enytc.com/for/npm/slush-mchasm)
+# Slush mchasm [![Build Status](https://secure.travis-ci.org/codeshaghennessy@gmail.com/slush-mchasm.png?branch=master)](https://travis-ci.org/codeshaghennessy@gmail.com/slush-mchasm) [![NPM version](https://badge-me.herokuapp.com/api/npm/slush-mchasm.png)](http://badges.enytc.com/for/npm/slush-mchasm)
 
 > Generate a microchasm service scaffolding
 
@@ -22,7 +22,7 @@ $ mkdir my-slush-mchasm
 Run the generator from within the new folder:
 
 ```bash
-$ cd my-slush-mchasm && slush slush-mChasm
+$ cd my-slush-mchasm && slush mchasm
 ```
 
 ## Getting To Know Slush

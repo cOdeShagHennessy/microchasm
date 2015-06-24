@@ -1,0 +1,10 @@
+node_modules/
+local_module_cache
+npm-debug.log
+.ebextensions/
+.idea/
+/.DS_Store
+coverage/
+bin/
+coverage.html
+.editorconfig
