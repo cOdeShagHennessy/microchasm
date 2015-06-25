@@ -1,4 +1,4 @@
-Definition of centralized information for microservice collaboration topology
+Centralized information stores for microservice collaboration topology
 =============================================================================
 Define stack topology of microservices architecture for message queueing exchanges, queues, etc. in terms of a collection of nanostacks.
 
