@@ -3,7 +3,7 @@ Centralized information stores for microservice collaboration topology
 Define stack topology of microservices architecture for message queueing exchanges, queues, etc. in terms of a collection of nanostacks.
 
 >## Nanostack
- A nanostack is a collection of domain, workflow, or interaction specific properties to configure topology, e.g. a particular RabbitMQ server and the set of exchanges and queues defining a problem domain. A collection of nanostacks is a stack.  
+ A nanostack is a collection of domain, workflow, or interaction specific properties to configure topology, e.g. a particular RabbitMQ server and the set of exchanges and queues defining a problem domain. A collection of nanostacks is a microstack.  
 
 A nanostack:
 
@@ -25,20 +25,27 @@ A nanostack:
 
   >### Sample Structure 1
   ``` 
-/microstack-->
-    /ns_MyRedis -->
-        /...
-    /ns_MyRabbitMQ -->
-        /...
+/microstack -->
+         /ns_MyRedis -->
+              /...
+         /ns_MyRabbitMQ -->
+             /...
 ```
    >### Sample Structure 2
   ``` 
-/microstack-->
-    /myCompanyNanos -->
-        /ns_MyRedis -->
-            /...
-        /ns_MyRabbitMQ -->
-            /...
+/microstack -->
+         /myCompanyNanos -->
+             /ns_MyRedis -->
+                 /...
+             /ns_MyRabbitMQ -->
+                 /...
+```
+   >### Sample Structure 3 (requires entry for local dependency into package.json)
+  ``` 
+/microstack -->
+         /...
+/ns_MyRedis -->
+         /...
 ```
 
 >## Setup
@@ -89,5 +96,5 @@ DEBUG_LEVEL=debug npm test
 4. Add schmea, base configuration, overrides and tests TBD
   
   ```
-  Invetigating using Slush to template/scaffold adding a new nanostack.
+  Investigating using Slush to template/scaffold adding a new nanostack.
   ```
