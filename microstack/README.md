@@ -50,11 +50,10 @@ A nanostack:
 
 >## Setup
 Installing the microstack base framework
+
 1. Clone **microstack** repo
 2. `cd microstack`
-3. `npm install`
->## 
-_This will install all external dependencies and other local or peer dependependences explicitly added to the package.json_
+3. `npm install` _This will install all external dependencies and other local or peer dependependences explicitly added to the package.json_
 
 
 >## Run Tests 
@@ -72,6 +71,7 @@ DEBUG_LEVEL=debug npm test
 
  + Import into your microservice as necessary _e.g. `var stack = require ('./topology').stack;`_
  + Reference nanostack topology properties as necessary _e.g. `var rabbitHost = stack['ss_RabbitMQ'].mqHost;`_
+ 
   >### Sample Structure 1
   ``` 
 /microstack-->
@@ -80,6 +80,7 @@ DEBUG_LEVEL=debug npm test
     /ns_MyRabbitMQ -->
         /...
 ```
+
    >### Sample Structure 2
   ``` 
 /microstack-->
@@ -89,11 +90,10 @@ DEBUG_LEVEL=debug npm test
         /ns_MyRabbitMQ -->
             /...
 ```
->## Add new nanostack
-
+  >## Add new nanostack
 1. Determine a unique identifier(uid) for the nanostack _e.g. **ns_RabbitMQs** ("ns_" prefix represents nanostack)
 2. Make a new directory for the uid inside the _**microstack**_ directory and corollary directory for the uid inside the _**test**_ directory 
-4. Add schmea, base configuration, overrides and tests TBD
+3. Add schmea, base configuration, overrides and tests TBD
   
   ```
   Investigating using Slush to template/scaffold adding a new nanostack.
