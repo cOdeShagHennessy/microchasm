@@ -11,8 +11,6 @@ An ecosystem of separated, independent services(micro variety) that share a comm
   1. `microservice`
  + **[microstack](./microstack/README.md)** - Centralized information stores for microservice collaboration topology
  + **[twiglet](./twiglet/README.md)** - Logging tooling for collaboratively felling microservices 
- + **[hapijs](http://hapijs.com/)** used to create microservices, microapi plugins, mircolib plugins.
- + **[lab](https://github.com/hapijs/lab)** and **[code](https://github.com/hapijs/code)** used to create tests  
 
 >## Prereqs
  The following external and peer dependencies currently exist.
@@ -20,6 +18,8 @@ An ecosystem of separated, independent services(micro variety) that share a comm
  + Depends on the local **twiglet** module as a peer project for logging. _This dependency may move to an external repo at some point_
  +  Depends on the local **microstack** module as a peer project for logging. _This dependency may move to an external repo at some point_
  + **[rekuire](https://github.com/nadav-dav/rekuire)** used to load some modules. 
+ + **[hapijs](http://hapijs.com/)** used to create microservices, microapi plugins, mircolib plugins.
+ + **[lab](https://github.com/hapijs/lab)** and **[code](https://github.com/hapijs/code)** used to create tests  
 
 
 >## Getting Started
