@@ -1,6 +1,6 @@
 MicroChasm Ecosystem
 =============================================================================
-An ecosystem of separated, independent services(micro variety) that share a common collaborate purpose. The pseudo-autonomous nature of each service is complimented by collaboration across the chasm of services. 
+An ecosystem of separated, independent services(micro variety) that share a common collaborative purpose. The pseudo-autonomous nature of each service is complimented by collaboration across the chasm of services. 
 
 >## microchasm
  The microchasm library provides a conduit for rapidly composing microservice ecosystems through scaffolding mechanisms for the microchasm, microservices, microapis and other components as well as tooling for build, deployment, and other full stack services.
