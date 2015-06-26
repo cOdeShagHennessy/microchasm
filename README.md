@@ -11,7 +11,8 @@ An ecosystem of separated, independent services(micro variety) that share a comm
   1. `microservice`
  + **[microstack](./microstack/README.md)** - Centralized information stores for microservice collaboration topology
  + **[twiglet](./twiglet/README.md)** - Logging tooling for collaboratively felling microservices 
-  
+ + **[hapijs](http://hapijs.com/)** used to create microservices, microapi plugins, mircolib plugins.
+ + **[lab](https://github.com/hapijs/lab)** and **[code](https://github.com/hapijs/code)** used to create tests  
 
 >## Prereqs
  The following external and peer dependencies currently exist.
@@ -41,9 +42,9 @@ _Somewhere outside of your local `microchasm` repository folder_
 $ mkdir orgChasm
 ```
  + Change directory to the cloned repo
- ```
+```
 cd orgChasm
- ```
+```
  + Run the generator from within the new folder:
 ```bash
 $ slush mchasm
@@ -91,11 +92,35 @@ $ npm test
 ```bash
 $ npm start
 ```
-+ Hit server:
-    + [http://localhost:8090/](http://localhost:8090/)
++ Hit server: [http://localhost:8090/](http://localhost:8090/)
 
->    To enable logging output for tests use the following from the commandline:
-```
+>## Logging Configuration 
+Using **[twiglet](./twiglet/README.md)** you can collate logging configurations (_and customize if desired_)
+
+>#### DEBUG_LEVEL
+> Use specific logging mechanism for and message and configure the logging level for a logger  
+
++ Valid methods and debug levels:
+
+ ` ['log', 'trace', 'debug', 'test', 'info', 'data', 'warn', 'error']; `
+ + `data` is a special case for transmitting json objects between systems
+ 
+ > ##### Commandline Usage
+ ```
 DEBUG_LEVEL=debug npm test
 DEBUG_LEVEL=debug npm start
+```
+
+>#### LOG_STYLE 
+> Specify a logging style for output and formatting of logging data
+
++ Valid styles `default, dailyJSON`
+
++ `default` outputs data to the console, using colors if available
++ `dailyJSON` outputs to separate file for each logging level in a /logs directory. A new file is begun for each day.
+
+ > ##### Commandline Usage
+ ```
+LOG_STYLE=dailyJSON npm test
+LOG_STYLE=dailyJSON npm start 
 ```
