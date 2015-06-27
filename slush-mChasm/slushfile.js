@@ -28,3 +28,4 @@ var plugins = require('gulp-load-plugins')({
 var options = {};
 gulp = require('./generators/base')(gulp,plugins,options);
 gulp = require('./generators/microservice')(gulp,plugins,options);
+gulp = require('./generators/microapi')(gulp,plugins,options);

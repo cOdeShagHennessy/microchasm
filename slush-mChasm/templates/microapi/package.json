@@ -1,0 +1,4 @@
+{
+  "name": "<%=apiNameSlug%>",
+  "version": "<%=apiVersion%>"
+}
