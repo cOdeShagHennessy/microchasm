@@ -3,6 +3,7 @@ var BDD = use('test/bdd');
 var Logger = require('twiglet')(process.env.DEBUG_LEVEL || 'info', process.env.LOG_STYLE || '');
 
 
+//TODO: change logging to use Logger.test(...)
 BDD.describe('Base Configuration', function () {
     var microstack= use('microstack');
 

@@ -31,17 +31,20 @@ module.exports = {
         var redisClient =request.server.plugins['hapi-redis'].client;
         storage.find(redisClient, request.params, request.query, function(data,err){
             if(err) {
-                Logger.error ("find  returned ", err);
-                reply({}).code(304)
+                Logger.error ("find returned ", err);
+                reply({uid:"no uid"}).code(304)
             }
             else if(data) {
                 Logger.debug("find returned %s", data);
                 reply(data);
             }
             else
-                reply({});
+                reply({uid:"no uid"});
         });<% } else {%>
-         reply({});<% }%>
+         if (request.params.uid.indexOf("-999")===0)
+            reply({uid:"no uid"}).code(304)
+         else
+            reply({uid:request.params.uid,sample:"add other properties to <%=apiNameSlug%> DDL"});<% }%>
     },
     response: {schema: <%=apiNameSlug%>DDL.schema}
 };

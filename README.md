@@ -35,7 +35,7 @@ $ npm install -g slush slush-mchasm
 ```
 
  >## Usage _(after initial setup)_
-  >#### Creating a new micro _Chasm_
+  >#### Creating a new _microChasm_
 _Somewhere outside of your local `microchasm` repository folder_
  + Create a new folder for your project:
 ```bash
@@ -64,8 +64,8 @@ $ slush mchasm
          /samples (optional depending on scaffolding answers)
 ```
 
->###  Adding a microservice to your chasm
-From inside your chasm base directory, i.e. `/orgChasm`
+>###  Adding a microservice to your microchasm
+From inside your microchasm base directory, i.e. `/orgChasm`
  + Run the generator from within the new folder:
 ```bash
 $ slush mchasm:microservice
@@ -79,18 +79,24 @@ $ slush mchasm:microservice
 ? Do you want to include basic Redis integration into your microservice? (Recommended to add Redis configuration via a nanostack) No
 ? Continue? (Y/n) Y
 ```
->### Test microservice
+>### Testing microservice
+If during the scaffolding process you elected to add tests then a tests directory and some testing samples were added 
+into your directory structure. These tests use the hapijs/lab and hapijs/code libraries to construct tests. The included
+tests serve as good examples of how to add tests as you evolve your microservice and microchasm.
+
 + Change directory to the microservice directory
+```
+   $ cd clippy
  ```
-cd clippy
- ```
+
 + Run tests:
 ```bash
-$ npm test
+   $ npm test
 ```
+
 + Run server:
 ```bash
-$ npm start
+   d$ npm start
 ```
 + Hit server: [http://localhost:8090/](http://localhost:8090/)
 

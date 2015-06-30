@@ -11,4 +11,6 @@ module.exports.it = lab.it;
 module.exports.expect = Code.expect;
 module.exports.before = lab.before;
 module.exports.after = lab.after;
+module.exports.count = Code.count;
+module.exports.incomplete = Code.incomplete;
 

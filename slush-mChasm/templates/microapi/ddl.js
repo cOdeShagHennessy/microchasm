@@ -4,9 +4,10 @@ module.exports = function () {
     var module = {};
 
     module.schema= Joi.object({
-        sample: Joi.string().description('Describe this field')
+        uid: Joi.string().required().description("Unique identifier for <%=apiNameSlug%>"),
+        sample: Joi.string().description("Describe this field")
     }).meta({
-        className: '<%=apiNameSlug%>',
+        className: "<%=apiNameSlug%>",
         description: "<%=descHuman%>"
     });
 

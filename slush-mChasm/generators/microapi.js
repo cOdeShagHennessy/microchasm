@@ -33,10 +33,10 @@ module.exports = function (gulp, plugins, options) {
         }
 
         return {
-            microServiceName:     workingDirName,
-            userName:    osUserName || format(user.name || ''),
-            authorName:  user.name || '',
-            authorEmail: user.email || ''
+            microServiceName: workingDirName,
+            userName:         osUserName || format(user.name || ''),
+            authorName:       user.name || '',
+            authorEmail:      user.email || ''
         };
     })();
 
@@ -44,15 +44,15 @@ module.exports = function (gulp, plugins, options) {
         var prompts = [{
             name:     'serviceName',
             message:  'What microservice are you adding the microapi to?',
-            default: defaults.microServiceName,
+            default:  defaults.microServiceName,
             validate: function (input) {
 //                var namePattern = /^([a-zA-Z])(.)$/
 //                if (namePattern.test(input)) {
-                    // Check that current directory matches the
-                    // microservice adding the api for
-                    if (defaults.microServiceName === input)
-                        return true;
-                    else return 'The current directory must be the microservice you are adding the api';
+                // Check that current directory matches the
+                // microservice adding the api for
+                if (defaults.microServiceName === input)
+                    return true;
+                else return 'The current directory must be the microservice you are adding the api';
 
 //                }
 //                else return 'You need to provide a name (must start with a alpha character and be longer than 3 characters)';
@@ -88,40 +88,40 @@ module.exports = function (gulp, plugins, options) {
                     return 'Please provide a version number in the format x.y.z, where x,y,z are integers';
             }
         }, {
-            type: "checkbox",
-            message: "What REST methods would you like to support?",
-            name: "restMethods",
-            choices: [
+            type:     "checkbox",
+            message:  "What REST methods would you like to support?",
+            name:     "restMethods",
+            choices:  [
                 {
-                    value:'PING',
-                    name: 'ping',
+                    value:   'PING',
+                    name:    'ping',
                     checked: true
                 },
                 {
-                    value:'GET',
-                    name: 'get',
+                    value:   'GET',
+                    name:    'get',
                     checked: true
                 },
                 {
-                    value:'PUT',
-                    name: 'put',
+                    value: 'PUT',
+                    name:  'put',
                 },
                 {
-                    value:'POST',
-                    name: 'post',
+                    value: 'POST',
+                    name:  'post',
                 },
                 {
-                    value:'DELETE',
-                    name: 'delete',
+                    value: 'DELETE',
+                    name:  'delete',
                 },
                 new plugins.inquirer.Separator("The Works:"),
                 {
-                    value:'ALL',
-                    name: 'all',
+                    value: 'ALL',
+                    name:  'all',
                 }
             ],
-            validate: function( answer ) {
-                if ( answer.length < 1 ) {
+            validate: function (answer) {
+                if (answer.length < 1) {
                     return "You must support at least REST method"
                 }
                 return true;
@@ -144,7 +144,7 @@ module.exports = function (gulp, plugins, options) {
                 }
                 answers.serviceNameSlug = plugins._.slugify(answers.serviceName);
                 answers.apiNameSlug = plugins._.slugify(answers.apiName);
-                answers.descHuman =plugins._.humanize(answers.apiDescription);
+                answers.descHuman = plugins._.humanize(answers.apiDescription);
                 //TODO: make all option set all these to true
                 answers.restPING = plugins._.contains(answers.restMethods, 'PING');
                 answers.restGET = plugins._.contains(answers.restMethods, 'GET');
@@ -184,54 +184,37 @@ module.exports = function (gulp, plugins, options) {
                             file.basename = '.' + file.basename.slice(1);
                         }
                         if (file.extname === '.sjs')
-                         file.extname = '.js'
+                            file.extname = '.js'
                     }))
-                    .pipe(plugins.conflict('./'))
-                    .pipe(gulp.dest('./'+APIS_DIRECTORY + answers.apiNameSlug))
-                    .pipe(plugins.install())
+//                    .pipe(plugins.conflict('./'))
+                    .pipe(gulp.dest('./' + APIS_DIRECTORY + answers.apiNameSlug))
+//                    .pipe(plugins.install())
                     .on('end', function () {
-//                        done();
+                        //
+                        // Include tests
+                        plugins.mkdirp('test/microapis/' + answers.apiNameSlug);
+
+                        var api_test_sources = [
+                            templateDir + '/test/api-ddl-test.sjs',
+                            templateDir + '/test/api-test.sjs'
+                        ];
+                        gulp.src(api_test_sources).pipe(debug())
+                            .pipe(plugins.template(answers))
+                            .pipe(plugins.rename(function (file) {
+                                if (file.basename[0] === '_') {
+                                    file.basename = '.' + file.basename.slice(1);
+                                }
+                                if (file.extname === '.sjs')
+                                    file.extname = '.js'
+                            }))
+//                        .pipe(plugins.conflict('./'))
+                            .pipe(gulp.dest('./test/microapis/' + answers.apiNameSlug))
+                            .on('end', function () {
+//                              done();
+                            });
                     });
-
             });
-
-        //TODO: copy tests for microapis
-        //
-        // Include tests
-//                if (answers.includeTests) {
-//                    plugins.mkdirp('microservice/test');
-//                    plugins.mkdirp('samples/microservice');
-////                    gulp.src(__dirname + '/../templates/microservice/test/**').pipe(debug())
-//                    gulp.src(__dirname + '/../../microservice/test/**').pipe(debug())
-//                        .pipe(plugins.template(answers))
-//                        .pipe(plugins.rename(function (file) {
-//                            if (file.basename[0] === '_') {
-//                                file.basename = '.' + file.basename.slice(1);
-//                            }
-//                        }))
-//                        .pipe(plugins.conflict('./'))
-//                        .pipe(gulp.dest('./microservice/test'))
-//                        .pipe(plugins.install())
-//                        .on('end', function () {
-////                        done();
-//                        });
-//                    gulp.src(__dirname + '/../../samples/microservice/**').pipe(debug())
-//                        .pipe(plugins.template(answers))
-//                        .pipe(plugins.rename(function (file) {
-//                            if (file.basename[0] === '_') {
-//                                file.basename = '.' + file.basename.slice(1);
-//                            }
-//                        }))
-//                        .pipe(plugins.conflict('./'))
-//                        .pipe(gulp.dest('./samples/microservice'))
-//                        .pipe(plugins.install())
-//                        .on('end', function () {
-//                            return gulp;
-//                        });
-//                }
-//                else
-//                    return gulp;
     });
 //});
-return gulp;
+    return gulp;
 };
