@@ -37,7 +37,7 @@ module.exports.register = function (plugin, options, next) {
                 }
             }
         }
-    });<% } %> <% if(TBDrestPUT){ %>
+    });<% } %> <% if(restPUT){ %>
 
     plugin.route({
         method: 'PUT',

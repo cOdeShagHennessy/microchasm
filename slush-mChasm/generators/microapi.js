@@ -152,7 +152,7 @@ module.exports = function (gulp, plugins, options) {
                 answers.restPOST = plugins._.contains(answers.restMethods, 'POST');
                 answers.restDELETE = plugins._.contains(answers.restMethods, 'DELETE');
                 //temp
-                answers.TBDrestPUT = false;
+//                answers.TBDrestPUT = false;
                 answers.TBDrestPOST = false;
                 answers.TDBrestDELETE = false;
 //                console.log('service called ' + answers.serviceNameSlug);
@@ -176,6 +176,8 @@ module.exports = function (gulp, plugins, options) {
                     api_sources.push(templateDir + '/redisStore.sjs');
                 if (answers.restGET)
                     api_sources.push(templateDir + '/get.sjs');
+                if (answers.restPUT)
+                    api_sources.push(templateDir + '/put.sjs');
 
                 gulp.src(api_sources).pipe(debug())
                     .pipe(plugins.template(answers))

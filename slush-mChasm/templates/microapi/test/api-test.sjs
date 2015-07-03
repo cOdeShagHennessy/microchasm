@@ -66,6 +66,53 @@ BDD.describe('<%=apiNameSlug%> API Test', function () {
             Logger.test("Incomplete assertions: %d", BDD.incomplete());
             done();
         });
+    });//<% } if(restPUT){ %>
+    /**
+     * This test requires preexising data
+     */
+    BDD.it('PUT <%=apiNameSlug%>/{uid} returns 200 ', function (done) {
+        var options = {
+            method:  "PUT",
+            url:     apiPrefix + '/' + uid,
+            params:  {
+                uid: uid
+            },
+            payload: {
+                uid: uid,
+                sample:    "this is a sample"
+            }
+        };
+        server.inject(options, function (response) {
+            Logger.test('url = %s response = %s', JSON.stringify(response.request.path, null, '\t'), JSON.stringify(response.result));
+            BDD.expect(response.request.path).to.equal(apiPrefix + '/' + uid);
+            BDD.expect(response.statusCode).to.equal(200);
+            BDD.expect(response.result).to.contain({ uid: "unit_0000001", sample: "this is a sample" });
+            Logger.test("Assertions: %d", BDD.count());
+            Logger.test("Incomplete assertions: %d", BDD.incomplete());
+            done();
+        });
+    });//<% } if(restPUT){ %>
+    BDD.it('PUT <%=apiNameSlug%>/{uid} returns 404', function (done) {
+        var uid = "-999";
+        var options = {
+            method:  "PUT",
+            url:     apiPrefix + '/' + uid,
+            params:  {
+                uid: uid
+            },
+            payload: {
+                uid: uid,
+                sample:    "this is a sample"
+            }
+        };
+        server.inject(options, function (response) {
+            Logger.test('url = %s response = %s', JSON.stringify(response.request.path, null, '\t'), JSON.stringify(response.result));
+            BDD.expect(response.request.path).to.equal(apiPrefix + '/' + uid);
+            BDD.expect(response.statusCode).to.equal(404);
+            Logger.test("Assertions: %d", BDD.count());
+            Logger.test("Incomplete assertions: %d", BDD.incomplete());
+            done();
+        });
     });//<% } if(TBDrestPOST){ %>
     /**
      * This test requires preexising data
@@ -113,14 +160,14 @@ BDD.describe('<%=apiNameSlug%> API Test', function () {
             done();
         });
     });//<% } if(restGET){ %>
-    BDD.it('GET <%=apiNameSlug%>/{uid} returns 304, no data for uid', function (done) {
+    BDD.it('GET <%=apiNameSlug%>/{uid} returns 404, no data for uid', function (done) {
         var options = {
             method: "GET",
             url:    apiPrefix + '/' + "-999"
         };
         server.inject(options, function (response) {
             Logger.test('url =' + JSON.stringify(response.request.path, null, '\t'));
-            BDD.expect(response.statusCode).to.equal(304);
+            BDD.expect(response.statusCode).to.equal(404);
             Logger.test("Assertions: %d", BDD.count());
             Logger.test("Incomplete assertions: %d", BDD.incomplete());
             done();

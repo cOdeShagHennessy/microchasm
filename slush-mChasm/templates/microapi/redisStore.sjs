@@ -9,17 +9,17 @@ module.exports = function () {
     <% if(restGET){ %>
     module.find = function (redisClient, params, query, callback) {
         if (callback)
-            callback([], 'Does not exist');
+            callback([], 'Could not find');
     };<% }%><% if(restPUT || restPOST){ %>
 
     module.store = function (redisClient, params, payload, callback) {
         if (callback)
-            callback([], "Does not exist");
+            callback([], "Could not store");
     };<% }%><% if(restDELETE){ %>
 
     module.delete = function (redisClient, params, query, callback) {
         if (callback)
-            callback([], 'Does not exist');
+            callback([], 'Could not delete');
     };<% }%>
         
 

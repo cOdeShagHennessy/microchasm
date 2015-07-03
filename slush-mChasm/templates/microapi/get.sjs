@@ -8,7 +8,7 @@ var storage = use('apis/<%=apiNameSlug%>/redisStore')();
 
 module.exports = {
     description: "Retrieve <%=apiNameSlug%>",
-    notes: "Returns <%=apiNameSlug%>. Implementator add other details ...",
+    notes: "Returns <%=apiNameSlug%>. Implementor add other details ...",
     tags: ['api', '<%=apiNameSlug%>'],
     validate: {
         params: {
@@ -19,7 +19,7 @@ module.exports = {
         'hapi-swagger': {
             responseMessages: [
                 {code: 200, message: 'OK'},
-                {code: 304, message: '[uid] is not associated with a <%=apiNameSlug%>'},
+                {code: 404, message: '[uid] is not associated with a <%=apiNameSlug%>'},
                 {code: 500, message: 'system error'}
             ]
         }
@@ -31,18 +31,18 @@ module.exports = {
         var redisClient =request.server.plugins['hapi-redis'].client;
         storage.find(redisClient, request.params, request.query, function(data,err){
             if(err) {
-                Logger.error ("find returned ", err);
-                reply({uid:"no uid"}).code(304)
+                Logger.error ("storage error:", err);
+                reply({uid:"no uid"}).code(404)
             }
             else if(data) {
                 Logger.debug("find returned %s", data);
                 reply(data);
             }
             else
-                reply({uid:"no uid"});
+                reply({uid:request.params.uid});
         });<% } else {%>
          if (request.params.uid.indexOf("-999")===0)
-            reply({uid:"no uid"}).code(304)
+            reply({uid:"no uid"}).code(404)
          else
             reply({uid:request.params.uid,sample:"add other properties to <%=apiNameSlug%> DDL"});<% }%>
     },
