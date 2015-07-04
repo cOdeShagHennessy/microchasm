@@ -106,6 +106,7 @@ tests serve as good examples of how to add tests as you evolve your microservice
 
 + Run the generator from within the new folder: 
  ```$ slush mchasm:microapi ```
+
 + Answer scaffolding questions:
  ```bash
 ? What microservice are you adding the microapi to? (serviceMe)
