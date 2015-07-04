@@ -113,52 +113,45 @@ BDD.describe('<%=apiNameSlug%> API Test', function () {
             Logger.test("Incomplete assertions: %d", BDD.incomplete());
             done();
         });
-    });//<% } if(TBDrestPOST){ %>
+    });//<% } if(restPOST){ %>
     /**
      * This test requires preexising data
      */
-    BDD.it(' POST <%=apiNameSlug%>/{uid} returns 200 ', function (done) {
-            method:  "POST",
-            url:     apiPrefix + '/' + uid,
-            params:  {
-                uid: uid
-            },
-            payload: {
-                sample:    "this is a sample",
-                timestamp: 1432665710233
-            }
-        };
-        server.inject(options, function (response) {
-            Logger.test('url = %s response = %s', JSON.stringify(response.request.path, null, '\t'), JSON.stringify(response.result));
-            BDD.expect(response.request.path).to.equal(apiPrefix + '/' + uid);
-            BDD.expect(response.statusCode).to.equal(200);
-            BDD.expect(response.result).to.equal('OK');
-            Logger.test("Assertions: %d", BDD.count());
-            Logger.test("Incomplete assertions: %d", BDD.incomplete());
-            done();
-        });
-    });//<% } if(TBDrestPOST){ %>
-    BDD.it(' POST <%=apiNameSlug%>/{uid} returns 304 ', function (done) {
-        var unfoundtoken = 'canfindthistoken@mail.com';
+    BDD.it('POST <%=apiNameSlug%> returns 200 ', function (done) {
         var options = {
             method:  "POST",
-            url:     apiPrefix + '/' + uid,
-            params:  {
-                uid: uid
-            },
-            payload: {
-                token:     unfoundtoken,
-                timestamp: 1432665710233
-            }
+             url:     apiPrefix,
+             payload: {
+                sample:"sample property"
+             }
         };
         server.inject(options, function (response) {
             Logger.test('url = %s response = %s', JSON.stringify(response.request.path, null, '\t'), JSON.stringify(response.result));
-            BDD.expect(response.request.path).to.equal(apiPrefix + '/' + uid);
-            BDD.expect(response.statusCode).to.equal(304);
+            Logger.test('response = %s', JSON.stringify(response.headers, null, '\t'));
+            BDD.expect(response.headers.location).to.equal('/generateduid');
+            BDD.expect(response.statusCode).to.equal(201);
+            BDD.expect(response.result).to.contain({ uid: "generateduid", sample: "sample property" });
             Logger.test("Assertions: %d", BDD.count());
             Logger.test("Incomplete assertions: %d", BDD.incomplete());
             done();
         });
+    });//<% } if(restPOST){ %>
+    BDD.it(' POST <%=apiNameSlug%> returns 422 ', function (done) {
+         var options = {
+             method:  "POST",
+             url:     apiPrefix,
+             payload: {
+                 sample:"-999"
+             }
+         };
+         server.inject(options, function (response) {
+             Logger.test('url = %s response = %s', JSON.stringify(response.request.path, null, '\t'), JSON.stringify(response.result));
+             BDD.expect(response.statusCode).to.equal(422);
+             BDD.expect(response.result).to.contain({ uid: "no uid"});
+             Logger.test("Assertions: %d", BDD.count());
+             Logger.test("Incomplete assertions: %d", BDD.incomplete());
+             done();
+         });
     });//<% } if(restGET){ %>
     BDD.it('GET <%=apiNameSlug%>/{uid} returns 404, no data for uid', function (done) {
         var options = {
@@ -183,7 +176,6 @@ BDD.describe('<%=apiNameSlug%> API Test', function () {
             Logger.test('url =' + JSON.stringify(response.result, null, '\t'));
             BDD.expect(response.request.path).to.equal(apiPrefix + '/' + uid);
             BDD.expect(response.statusCode).to.equal(200);
-//            BDD.expect(response.result.length).to.equal(1);
             done();
         });
         Logger.test("Assertions: %d", BDD.count());

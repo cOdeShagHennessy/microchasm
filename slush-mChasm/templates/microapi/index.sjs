@@ -43,7 +43,7 @@ module.exports.register = function (plugin, options, next) {
         method: 'PUT',
         path:   '/{uid}',
         config: require('./put')
-    });<% } %> <% if(TBDrestPOST){ %>
+    });<% } %> <% if(restPOST){ %>
 
     plugin.route({
         method: 'POST',
