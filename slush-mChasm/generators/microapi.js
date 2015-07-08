@@ -151,6 +151,10 @@ module.exports = function (gulp, plugins, options) {
                 answers.restPUT = plugins._.contains(answers.restMethods, 'PUT');
                 answers.restPOST = plugins._.contains(answers.restMethods, 'POST');
                 answers.restDELETE = plugins._.contains(answers.restMethods, 'DELETE');
+                answers.restALL = plugins._.contains(answers.restMethods, 'ALL');
+                if(answers.restALL)
+                    answers.restPING = answers.restGET = answers.restPUT = answers.restPOST = answers.restDELETE = true;
+
                 //temp
 //                answers.TBDrestPUT = false;
 //                answers.TBDrestPOST = false;
