@@ -166,7 +166,7 @@ BDD.describe('<%=apiNameSlug%> API Test', function () {
             done();
         });
     });//<% } if(restGET){ %>
-    BDD.it(' GET <%=apiNameSlug%>/{uid} returns 200', function (done) {
+    BDD.it('GET <%=apiNameSlug%>/{uid} returns 200', function (done) {
         var options = {
             method: "GET",
             url:    apiPrefix + '/' + uid
@@ -176,6 +176,34 @@ BDD.describe('<%=apiNameSlug%> API Test', function () {
             Logger.test('url =' + JSON.stringify(response.result, null, '\t'));
             BDD.expect(response.request.path).to.equal(apiPrefix + '/' + uid);
             BDD.expect(response.statusCode).to.equal(200);
+            done();
+        });
+        Logger.test("Assertions: %d", BDD.count());
+        Logger.test("Incomplete assertions: %d", BDD.incomplete());
+    });//<% } if(restDELETE){ %>
+    BDD.it('DELETE <%=apiNameSlug%>/{uid} returns 404, no data for uid', function (done) {
+        var options = {
+            method: "DELETE",
+            url:    apiPrefix + '/' + "-999"
+        };
+        server.inject(options, function (response) {
+            Logger.test('url =' + JSON.stringify(response.request.path, null, '\t'));
+            BDD.expect(response.statusCode).to.equal(404);
+            Logger.test("Assertions: %d", BDD.count());
+            Logger.test("Incomplete assertions: %d", BDD.incomplete());
+            done();
+        });
+    });//<% } if(restDELETE){ %>
+    BDD.it('DELETE <%=apiNameSlug%>/{uid} returns 204', function (done) {
+        var options = {
+            method: "DELETE",
+            url:    apiPrefix + '/' + uid
+        };
+        server.inject(options, function (response) {
+            Logger.test('url =' + JSON.stringify(response.request.path, null, '\t'));
+            Logger.test('url =' + JSON.stringify(response.result, null, '\t'));
+            BDD.expect(response.request.path).to.equal(apiPrefix + '/' + uid);
+            BDD.expect(response.statusCode).to.equal(204);
             done();
         });
         Logger.test("Assertions: %d", BDD.count());

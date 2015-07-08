@@ -154,7 +154,7 @@ module.exports = function (gulp, plugins, options) {
                 //temp
 //                answers.TBDrestPUT = false;
 //                answers.TBDrestPOST = false;
-                answers.TDBrestDELETE = false;
+//                answers.TBDrestDELETE = false;
 //                console.log('service called ' + answers.serviceNameSlug);
                 console.log('microapi called ' + answers.apiNameSlug);
                 console.log('REST with:' + answers.restMethods);
@@ -180,7 +180,8 @@ module.exports = function (gulp, plugins, options) {
                     api_sources.push(templateDir + '/put.sjs');
                 if (answers.restPOST)
                     api_sources.push(templateDir + '/post.sjs');
-
+                if (answers.restDELETE)
+                    api_sources.push(templateDir + '/delete.sjs');
 
                 gulp.src(api_sources).pipe(debug())
                     .pipe(plugins.template(answers))

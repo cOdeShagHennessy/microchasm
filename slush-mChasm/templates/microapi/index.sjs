@@ -55,7 +55,7 @@ module.exports.register = function (plugin, options, next) {
         method: 'GET',
         path:   '/{uid}',
         config: require('./get')
-    }); <% } %> <% if(TDBrestDELETE){ %>
+    }); <% } %> <% if(restDELETE){ %>
 
     plugin.route({
         method: 'DELETE',

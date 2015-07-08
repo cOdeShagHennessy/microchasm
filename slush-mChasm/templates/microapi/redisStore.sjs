@@ -33,8 +33,14 @@ module.exports = function () {
     };<% }%><% if(restDELETE){ %>
 
     module.delete = function (redisClient, params, query, callback) {
-        if (callback)
-            callback([], 'Could not delete');
+        if (params.uid === "-999") {
+            if (callback)
+                callback("Could not delete");
+        }
+        else {
+            if (callback)
+                callback();
+        }
     };<% }%>
         
 
