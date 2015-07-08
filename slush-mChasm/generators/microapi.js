@@ -145,7 +145,7 @@ module.exports = function (gulp, plugins, options) {
                 answers.serviceNameSlug = plugins._.slugify(answers.serviceName);
                 answers.apiNameSlug = plugins._.slugify(answers.apiName);
                 answers.descHuman = plugins._.humanize(answers.apiDescription);
-                //TODO: make all option set all these to true
+                // process restMethods
                 answers.restPING = plugins._.contains(answers.restMethods, 'PING');
                 answers.restGET = plugins._.contains(answers.restMethods, 'GET');
                 answers.restPUT = plugins._.contains(answers.restMethods, 'PUT');
@@ -155,16 +155,10 @@ module.exports = function (gulp, plugins, options) {
                 if(answers.restALL)
                     answers.restPING = answers.restGET = answers.restPUT = answers.restPOST = answers.restDELETE = true;
 
-                //temp
-//                answers.TBDrestPUT = false;
-//                answers.TBDrestPOST = false;
-//                answers.TBDrestDELETE = false;
-//                console.log('service called ' + answers.serviceNameSlug);
                 console.log('microapi called ' + answers.apiNameSlug);
                 console.log('REST with:' + answers.restMethods);
 
                 plugins.mkdirp(APIS_DIRECTORY + answers.apiNameSlug);
-//                console.log('dir = ' + __dirname);
 
                 var templateDir = __dirname + '/../templates/microapi'
                 var api_sources = [

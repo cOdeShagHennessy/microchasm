@@ -12,7 +12,7 @@ module.exports = {
     tags: ['api', '<%=apiNameSlug%>'],
     validate: {
         params: {
-            uid: Joi.string().required().description("<%=apiNameSlug%> unique id"),
+            uid:<%=apiNameSlug%>DDL.properties.uid
         },
         payload: <%=apiNameSlug%>DDL.schema
     },

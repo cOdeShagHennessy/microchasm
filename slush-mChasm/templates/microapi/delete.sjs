@@ -12,14 +12,14 @@ module.exports = {
     tags: ['api', '<%=apiNameSlug%>'],
     validate: {
          params: {
-             uid: Joi.string().required().description("<%=apiNameSlug%> unique id"),
+            uid:<%=apiNameSlug%>DDL.properties.uid
          }
     },
     plugins: {
         'hapi-swagger': {
             responseMessages: [
                 {code: 204, message: "Successfully deleted <%=apiNameSlug%>"},
-//                {code: 304, message: '[uid] is not associated with a <%=apiNameSlug%>'},
+                {code: 404, message: '[uid] is not associated with a <%=apiNameSlug%>'},
                 {code: 500, message: 'system error'}
             ]
         }

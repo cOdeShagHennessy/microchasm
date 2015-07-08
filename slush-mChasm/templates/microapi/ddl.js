@@ -3,7 +3,6 @@ var Joi = require('joi');
 module.exports = function () {
     var module = {};
 
-    //TODO: refactor other DDL clients to use properites get, put, etc. post already done
     var properties = {
         uid: Joi.string().required().description("Unique identifier for <%=apiNameSlug%>"),
         sample:Joi.string().description("Describe this field")
