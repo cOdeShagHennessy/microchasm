@@ -16,6 +16,7 @@ An ecosystem of separated, independent services(micro variety) that share a comm
 >## Prereqs
  The following external and peer dependencies currently exist.
 
+ + Node.js v0.12.x with NPM 2.x.x (tested with node v0.12.4 and npm v2.10.1)
  + Depends on the local **twiglet** module as a peer project for logging. _This dependency may move to an external repo at some point_
  +  Depends on the local **microstack** module as a peer project for logging. _This dependency may move to an external repo at some point_
  + **[rekuire](https://github.com/nadav-dav/rekuire)** used to load some modules.
