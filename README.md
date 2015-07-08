@@ -127,9 +127,9 @@ selecting redis integration with the microservice) (Y/n) n
 ```
 + Update the microservice manifest.js to associate new microapi
 ```            
- './apis/flips': [{
+ './apis/collector': [{
                 routes: {
-                    prefix: '/flips'
+                    prefix: '/collector'
                 }
             }],
  ```       
