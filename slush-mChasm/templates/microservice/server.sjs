@@ -2,6 +2,11 @@ if (!process.env.NODE_ENV)
     process.env.NODE_ENV = 'development';
 
 var use = require('rekuire');
+var mkdir = require('mkdirp');
+
+if(process.env.LOG_STYLE === "dailyJSON"){
+    mkdir(__dirname + "/logs");
+}
 var Logger = require('twiglet')(process.env.DEBUG_LEVEL || 'info', process.env.LOG_STYLE || '');
 var colors = require('colors/safe');
 

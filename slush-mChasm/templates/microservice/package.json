@@ -37,6 +37,7 @@
     "hapi-swagger": "^0.7.3",
     "hoek": "^2.13.0",
     "joi": "^6.4.1",
+    "mkdirp": "^0.5.1",
     "rekuire": "^0.1.9",
     "tracer": "^0.7.4",
     "microstack": "file:../microstack",

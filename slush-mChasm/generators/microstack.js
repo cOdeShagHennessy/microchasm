@@ -9,6 +9,7 @@ module.exports = function (gulp, plugins, options) {
         plugins.mkdirp('microstack');
         console.log('dir = ' + __dirname);
 
+        //TODO: move all files into templates to remove the npm link issue after npm install -g. Move out to externalize later
         gulp.src(__dirname + '/../../microstack/*.*').pipe(debug())
             .pipe(plugins.template(answers))
             .pipe(plugins.rename(function (file) {
@@ -40,7 +41,7 @@ module.exports = function (gulp, plugins, options) {
         if (answers.includeTests) {
             plugins.mkdirp('microstack/test');
             plugins.mkdirp('samples/microstack');
-            gulp.src(__dirname + '/../../microstack/test/**').pipe(debug())
+            gulp.src(__dirname + '/../templates/microstack/test/**').pipe(debug())
                 .pipe(plugins.template(answers))
                 .pipe(plugins.rename(function (file) {
                     if (file.basename[0] === '_') {
@@ -51,7 +52,7 @@ module.exports = function (gulp, plugins, options) {
                 .pipe(gulp.dest('./microstack/test'))
 //                .pipe(plugins.install())
                 .on('end', function () {
-                    gulp.src(__dirname + '/../../samples/microstack/**').pipe(debug())
+                    gulp.src(__dirname + '/../templates/samples/microstack/**').pipe(debug())
                         .pipe(plugins.template(answers))
                         .pipe(plugins.rename(function (file) {
                             if (file.basename[0] === '_') {
@@ -60,7 +61,7 @@ module.exports = function (gulp, plugins, options) {
                         }))
 //                        .pipe(plugins.conflict('./'))
                         .pipe(gulp.dest('./samples/microstack'))
-                        .pipe(plugins.install())
+//                        .pipe(plugins.install())
                         .on('end', function () {
                             return gulp;
                         });
