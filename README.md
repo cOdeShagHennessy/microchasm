@@ -10,8 +10,8 @@ An ecosystem of separated, independent services(micro variety) that share a comm
  + Sub-generators:
   1. `mchasm:microservice`
   2. `mchasm:microapi`
- + **[microstack](./microstack/README.md)** - Centralized information stores for microservice collaboration topology
- + **[twiglet](./twiglet/README.md)** - Logging tooling for collaboratively felling microservices 
+ + **[microstack](./slush-mChasm/templates/microstack/README.md)** - Centralized information stores for microservice collaboration topology
+ + **[twiglet](./slush-mChasm/templates/twiglet/README.md)** - Logging tooling for collaboratively felling microservices 
 
 >## Prereqs
  The following external and peer dependencies currently exist.
@@ -36,7 +36,7 @@ $ cd microchasm
 ```bash
 $ npm install -g slush slush-mchasm
 ```
- + Link `slush-mchasm` repo. From inside the cloned repo directory `microchasm`:
+ + If you want to edit scaffolding generation or templates then link `slush-mchasm` to npm repo. From inside the cloned repo directory `microchasm`:
 ```bash
 $ cd slush-mChasm
 $ npm link
