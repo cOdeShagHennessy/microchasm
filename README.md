@@ -49,11 +49,11 @@ _Somewhere outside of your local `microchasm` repository folder_
 ```bash
 $ mkdir orgChasm
 ```
- + Change directory to the cloned repo
+ + Change directory to the new project directory
 ```
 cd orgChasm
 ```
- + Run the generator from within the new folder:
+ + Run the generator from within that new folder:
 ```bash
 $ slush mchasm
 ```
@@ -86,7 +86,7 @@ $ slush mchasm:microservice
 ? What should the be the default port for this service?(Can be configured in config/overrides per environment,
  i.e. NODE_ENV: (9080) 8090
 ? Do you want to include basic Redis integration into your microservice? (Recommended to add Redis configuration 
-via a nanostack) No
+via a nanostack)  - If you include Redis but do not have a redis instance up and running the tests will fail. By default it expects a redis instance to be running on 192.168.59.103 prot 6379 (boot2docker ip and port)
 ? Continue? (Y/n) Y
 ```
 ### Testing microservice
