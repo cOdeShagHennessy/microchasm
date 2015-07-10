@@ -14,7 +14,7 @@ module.exports = function () {
         uid: properties.uid,
         sample: properties.sample
     }).meta({
-        className: "<%=apiNameSlug%>",
+        className: "<%=apiNameSlug%>Schema",
         description: "<%=descHuman%>"
     });
 
