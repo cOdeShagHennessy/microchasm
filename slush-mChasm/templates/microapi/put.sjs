@@ -27,21 +27,21 @@ module.exports = {
         }
     },
     handler: function (request, reply) {
-        Logger.info("storing %j at %s", request.payload);
+        Logger.info("storing %j", request.payload);
         // Storage
         //    <% if(includeRedis){ %>
         var redisClient = request.server.plugins['hapi-redis'].client;
        storage.store(redisClient, request.params, request.payload, function(data,err){
            if(err) {
                Logger.error ("store returned", err);
-               reply({uid:"no uid"}).code(406)
+               reply({uid:"no uid"}).code(404)
            }
-           else if(data) {
-               Logger.debug("find returned %s", data);
-               reply(request.payload).code(201);
+           else if(data && data.exists) {
+               Logger.debug("exists", data);
+               reply(request.payload).code(200);
            }
            else
-               reply(request.payload).code(200);
+               reply(request.payload).code(201);
        });<% } else {%>
     if (request.params.uid.indexOf("-999")===0)
         reply({uid:"no uid"}).code(404);

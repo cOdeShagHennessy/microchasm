@@ -70,7 +70,7 @@ BDD.describe('<%=apiNameSlug%> API Test', function () {
     /**
      * This test requires preexising data
      */
-    BDD.it('PUT <%=apiNameSlug%>/{uid} returns 200 ', function (done) {
+    BDD.it('PUT <%=apiNameSlug%>/{uid} returns 201 ', function (done) {
         var options = {
             method:  "PUT",
             url:     apiPrefix + '/' + uid,
@@ -85,13 +85,35 @@ BDD.describe('<%=apiNameSlug%> API Test', function () {
         server.inject(options, function (response) {
             Logger.test('url = %s response = %s', JSON.stringify(response.request.path, null, '\t'), JSON.stringify(response.result));
             BDD.expect(response.request.path).to.equal(apiPrefix + '/' + uid);
-            BDD.expect(response.statusCode).to.equal(200);
+            BDD.expect(response.statusCode).to.equal(201);
             BDD.expect(response.result).to.contain({ uid: "unit_0000001", sample: "this is a sample" });
             Logger.test("Assertions: %d", BDD.count());
             Logger.test("Incomplete assertions: %d", BDD.incomplete());
             done();
         });
     });//<% } if(restPUT){ %>
+   BDD.it('PUT <%=apiNameSlug%>/{uid} returns 200 ', function (done) {
+        var options = {
+            method:  "PUT",
+            url:     apiPrefix + '/' + uid,
+            params:  {
+                uid: uid
+            },
+            payload: {
+                uid: uid,
+                sample:    "exists"
+            }
+        };
+        server.inject(options, function (response) {
+            Logger.test('url = %s response = %s', JSON.stringify(response.request.path, null, '\t'), JSON.stringify(response.result));
+            BDD.expect(response.request.path).to.equal(apiPrefix + '/' + uid);
+            BDD.expect(response.statusCode).to.equal(200);
+            BDD.expect(response.result).to.contain({ uid: "unit_0000001", sample: "exists" });
+            Logger.test("Assertions: %d", BDD.count());
+            Logger.test("Incomplete assertions: %d", BDD.incomplete());
+            done();
+        });
+        });//<% } if(restPUT){ %>
     BDD.it('PUT <%=apiNameSlug%>/{uid} returns 404', function (done) {
         var uid = "-999";
         var options = {

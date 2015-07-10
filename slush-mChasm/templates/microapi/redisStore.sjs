@@ -19,9 +19,9 @@ module.exports = function () {
     };<% }%><% if(restPUT || restPOST){ %>
 
     module.store = function (redisClient, params, payload, callback) {
-        if (payload.sample === "-999") {
+        if (params.uid === "-999" || payload.sample === "-999") {
             if (callback)
-                callback([], "Could not store");
+                callback({}, "Could not store");
         } else if (payload.sample.indexOf("exists") === 0){
             if (callback)
                 callback({uid: "uid exists", sample: payload.sample, exists:true});
