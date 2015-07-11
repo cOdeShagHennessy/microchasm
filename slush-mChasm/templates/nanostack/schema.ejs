@@ -1,0 +1,11 @@
+/**
+* <%= userName %> generated on <% var date = new Date()%><%=date.toLocaleString()%> using slush-mChasm.
+* Author:<%= authorName %>
+* Email:<%= authorEmail %>
+*/
+var Joi = require('joi');
+
+module.exports = Joi.object().keys({
+    // Nanostack Schema <% _.forEach(fields, function(field){%>
+    <%=field.name%>: Joi.<%=(field.type)%>().required(),<% }); %>
+});

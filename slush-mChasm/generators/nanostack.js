@@ -86,6 +86,14 @@ module.exports = function (gulp, plugins, options) {
             }
         }, {
             type:    'confirm',
+            name:    'override',
+            message: "Will you override this for this field for different environments?",
+            default: false,
+            when:    function (addProps) {
+                return addProps;
+            }
+        }, {
+            type:    'confirm',
             name:    'addMore',
             message: "add another field?",
             default: false,
@@ -97,7 +105,7 @@ module.exports = function (gulp, plugins, options) {
         if (addProps) {
             console.log(colors.cyan("Adding a new property"));
             plugins.inquirer.prompt(fieldPrompts, function (responses) {
-                fields.push({name: responses.fieldName, type:responses.fieldType, defValue: responses.defValue});
+                fields.push({name: responses.fieldName, type:responses.fieldType, defValue: responses.defValue, override: responses.override});
                 if (responses.addMore) {
                     newFields(addProps, cb);
                 } else {
@@ -239,6 +247,10 @@ module.exports = function (gulp, plugins, options) {
                 newFields(answers.addProps, function () {
                     console.log(answers);
                     console.log(fields);
+                    answers.fields = fields;
+                    answers.userName = defaults.userName;
+                    answers.authorName = defaults.authorName;
+                    answers.authorEmail = defaults.authorEmail;
                     answers.chasmNameSlug = plugins._.slugify(answers.chasmName);
                     answers.nsNameSlug = "ns_" + plugins._.camelize(plugins._.slugify(answers.nsName));
                     answers.nsHuman = plugins._.humanize(answers.nsDescription);
@@ -261,10 +273,10 @@ module.exports = function (gulp, plugins, options) {
 
                     var templateDir = __dirname + '/../templates/nanostack'
                     var ns_sources = [
-                        templateDir + '/base.js',
+                        templateDir + '/base.ejs',
                         templateDir + '/index.js',
-                        templateDir + '/overrides.js',
-                        templateDir + '/schema.js',
+                        templateDir + '/overrides.ejs',
+                        templateDir + '/schema.ejs',
                         templateDir + '/package.json'
                     ];
 
@@ -274,7 +286,7 @@ module.exports = function (gulp, plugins, options) {
                             if (file.basename[0] === '_') {
                                 file.basename = '.' + file.basename.slice(1);
                             }
-                            if (file.extname === '.sjs')
+                            if (file.extname === '.ejs')
                                 file.extname = '.js'
                         }))
 //                    .pipe(plugins.conflict('./'))
