@@ -1,0 +1,5 @@
+{
+  "name": "<%=nsNameSlug%>",
+  "main":"index.js",
+  "version": "<%=nsVersion%>"
+}
