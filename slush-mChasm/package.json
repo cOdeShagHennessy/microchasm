@@ -22,8 +22,8 @@
   ],
   "main": "slushfile.js",
   "engines": {
-    "node": ">= 0.10.26",
-    "npm": ">=1.4.3"
+    "node": ">= 0.12.04",
+    "npm": ">=2.10.1"
   },
   "scripts": {
     "test": "echo \"No tests\""
@@ -36,6 +36,7 @@
     "gulp-install": "^0.1.4",
     "gulp-load-plugins": "^1.0.0-rc.1",
     "gulp-rename": "^1.2.0",
+    "gulp-shell": "^0.4.2",
     "gulp-template": "^0.1.1",
     "inflection": "^1.7.1",
     "iniparser": "^1.0.5",

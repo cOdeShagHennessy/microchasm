@@ -26,6 +26,8 @@ var plugins = require('gulp-load-plugins')({
 //console.log(plugins['debug']);
 
 var options = {};
+
+//TODO: pass defaults i.e. author, email, workind dir etc. to generators To refactor and remove duplicated code
 gulp = require('./generators/base')(gulp,plugins,options);
 gulp = require('./generators/microservice')(gulp,plugins,options);
 gulp = require('./generators/microapi')(gulp,plugins,options);

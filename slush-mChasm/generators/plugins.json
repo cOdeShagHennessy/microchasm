@@ -5,6 +5,7 @@
     "gulp-install": "^0.1.4",
     "gulp-load-plugins": "^1.0.0-rc.1",
     "gulp-rename": "^1.2.0",
+    "gulp-shell": "^0.4.2",
     "gulp-template": "^0.1.1",
     "inflection": "^1.7.1",
     "iniparser": "^1.0.5",

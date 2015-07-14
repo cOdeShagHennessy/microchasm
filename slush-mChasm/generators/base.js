@@ -8,6 +8,7 @@ module.exports = function (gulp, plugins, options) {
         return username.replace(/\s/g, '');
     }
 
+    //TODO: pass defaults i.e. author, email, workind dir etc. to generators To refactor and remove duplicated code
     var defaults = (function () {
         var workingDirName = path.basename(process.cwd()),
             homeDir, osUserName, configFile, user;
