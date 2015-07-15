@@ -188,7 +188,7 @@ module.exports = function (gulp, plugins, options) {
             if (responses.installInServices) {
                 console.log("services", responses.installForServices);
                 cb(responses);
-            } else cb();
+            } else cb(responses);
         });
     };
 
@@ -370,44 +370,43 @@ module.exports = function (gulp, plugins, options) {
                             }))
 //                    .pipe(plugins.conflict('./'))
                             .pipe(gulp.dest('./' + NANOS_DIRECTORY + answers.nsNameSlug))
-//                    .pipe(plugins.install())
+                            .pipe(plugins.install())
                             .on('end', function () {
-                                //
-                                // Include tests
-                                plugins.mkdirp(NANOS_DIRECTORY + 'test/' + answers.nsNameSlug);
-                                var ns_test_sources = [
-//                            templateDir + '/test/api-ddl-test.sjs',
-//                            templateDir + '/test/api-test.sjs'
-                                ];
-                                gulp.src(ns_test_sources).pipe(debug())
-                                    .pipe(plugins.template(answers))
-                                    .pipe(plugins.rename(function (file) {
-                                        if (file.basename[0] === '_') {
-                                            file.basename = '.' + file.basename.slice(1);
-                                        }
-                                        if (file.extname === '.sjs')
-                                            file.extname = '.js'
-                                    }))
-//                        .pipe(plugins.conflict('./'))
-                                    .pipe(gulp.dest(NANOS_DIRECTORY + 'test/' + answers.nsNameSlug))
-                                    .on('end', function () {
-//                              done();
-                                        //TODO: finish up install in services
-                                        if (serviceChoices.installInServices) {
-                                            serviceChoices.installForServices.forEach(function (entry) {
-                                                var options = {
-                                                   cwd:  process.cwd() + '/' + entry
-                                                }
 
-                                                var tasks = [];
-                                                tasks.push('npm install --save ../' + NANOS_DIRECTORY + answers.nsNameSlug);
-                                                console.log(colors.bgMagenta(" running " + tasks));
-                                                plugins.shell.task(tasks, options)();
-                                            });
-                                        }
-                                    });
                             });
 
+                        //
+                        // Include tests
+                        plugins.mkdirp(NANOS_DIRECTORY + '/' + answers.nsNameSlug + '/test');
+                        var ns_test_sources = [
+                            templateDir + '/test/bdd.js',
+                            templateDir + '/test/config-test.js'
+                        ];
+                        gulp.src(ns_test_sources).pipe(debug())
+                            .pipe(plugins.template(answers))
+                            .pipe(plugins.rename(function (file) {
+                                if (file.basename[0] === '_') {
+                                    file.basename = '.' + file.basename.slice(1);
+                                }
+                                if (file.extname === '.sjs')
+                                    file.extname = '.js'
+                            }))
+//                        .pipe(plugins.conflict('./'))
+                            .pipe(gulp.dest(NANOS_DIRECTORY + '/' + answers.nsNameSlug + '/test'))
+                            .on('end', function () {
+                                //TODO: finish up install in services
+                                if (serviceChoices.installInServices) {
+                                    serviceChoices.installForServices.forEach(function (entry) {
+                                        var options = {
+                                            cwd:  process.cwd() + '/' + entry
+                                        }
+                                        var tasks = [];
+                                        tasks.push('npm install --save ../' + NANOS_DIRECTORY + answers.nsNameSlug);
+                                        console.log(colors.bgMagenta(" running " + tasks));
+                                        plugins.shell.task(tasks, options)();
+                                    });
+                                }
+                            });
                     });
                 });
 
