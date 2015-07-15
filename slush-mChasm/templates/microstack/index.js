@@ -19,7 +19,7 @@ module.exports = function (stacksToLoad) {
             nanostacks[item.name] = { nanostack:nano.nanostack, schema:nano.schema };
             Logger.trace("Loaded %s", JSON.stringify(nanostacks,null,'\t'));
         });
-    } else Logger.warn('No stacks to load');
+    } else Logger.warn('No stacks to load. Note: requires an array as the argument');
 
     module.nanos = function (name) {
         var nano = nanostacks[name];

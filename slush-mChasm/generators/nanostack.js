@@ -81,7 +81,8 @@ module.exports = function (gulp, plugins, options) {
             name:     'defValue',
             message:  "What is the default value?",
             validate: function (input) {
-                var valPattern = /^[a-zA-Z0-9_]+$/
+                var valPattern = /^[a-zA-Z0-9_:.]+$/
+
                 if (valPattern.test(input)) {
                     return true;
                 }
