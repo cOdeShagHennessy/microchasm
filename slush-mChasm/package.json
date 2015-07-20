@@ -1,7 +1,7 @@
 {
   "name": "slush-mchasm",
   "description": "Generate a microchasm service scaffolding",
-  "version": "0.0.1",
+  "version": "0.2.0",
   "homepage": "https://github.com/codeshaghennessy@gmail.com/slush-mchasm",
   "author": {
     "name": "cOdeShag Hennessy",
