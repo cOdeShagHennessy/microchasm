@@ -18,7 +18,8 @@ Sips are small tooling modules in the form of gulp tasks.
 ## Currently supported _sips_ include:
 
 1. `roll-version` - Provides the ability to update the version property of the package.json  
-2. `stage-release` - Copies sources into the release directory 
+2. `stage-release` - Copies sources into the release directory
+3. `package-release` - Zips sources into an archive in the output directory  
 
 >### Microservice templates include scaffolding of gulpfile.js
 >Each microservice created via `slush mchasm:microservice` contains a generated **gulpfile.js**. This gulpfile:
@@ -44,4 +45,14 @@ Increment prerelease version (subsequent increments)
 
   ```javascript
     gulp roll-ver --mode prerelease
+  ```
+Stage microservice
+
+  ```bash
+    gulp stage
+  ```
+Package microservice version
+
+  ```bash
+    gulp package
   ```

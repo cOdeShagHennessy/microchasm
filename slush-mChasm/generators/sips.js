@@ -8,7 +8,7 @@ module.exports = function (gulp, plugins, options) {
         plugins.mkdirp('sips');
         console.log('dir = ' + __dirname);
 
-        gulp.src(__dirname + '/../../sips/*.*')//.pipe(debug())
+        gulp.src(__dirname + '/../../sips/*.*')
             .pipe(plugins.template(answers))
             .pipe(plugins.rename(function (file) {
                 if (file.basename[0] === '_') {
