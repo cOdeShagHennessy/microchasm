@@ -6,8 +6,12 @@ var Logger = use('twiglet')(process.env.DEBUG_LEVEL || 'info', process.env.LOG_S
 module.exports = function (microstack) {
     var module = {};
 
-//    Sample integration of microstack components
-//    var sampleNanoStack = microstack.nanos['sampleNanoStack'];
+    var microstack = use('microstack')([
+        //{ name:'cache',path:'ns_cache'},
+    ]);
+
+    // Sample integration of microstack components
+    // var cache = microstack.nanos('cache');
 
     // enumerate the base configuration properties
     var baseConfig = {
@@ -17,10 +21,7 @@ module.exports = function (microstack) {
         // This setting assumes the use of docker to host a redis instance locally
         // This setting can be overridden with overrides or the
         // recommended approach is to replace this with a nanostack component, i.e. ns_Redis
-        redisHost: '192.168.59.103'
-        <% }%>
-//    Sample integration of microstack components
-//        nanoHost: sampleNanoStack.nanoHost,
+        redisHost: '192.168.59.103' //cache.redisHost// <% }%>
     };
 
     var overrides = use('config/overrides');

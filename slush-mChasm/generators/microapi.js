@@ -160,6 +160,7 @@ module.exports = function (gulp, plugins, options) {
 
                 plugins.mkdirp(APIS_DIRECTORY + answers.apiNameSlug);
 
+                //TODO:refactor all .sjs to .ejs
                 var templateDir = __dirname + '/../templates/microapi'
                 var api_sources = [
                     templateDir + '/index.sjs',

@@ -8,6 +8,7 @@ module.exports = function (gulp, plugins, options) {
         return username.replace(/\s/g, '');
     }
 
+    //TODO: pass defaults i.e. author, email, workind dir etc. to generators To refactor and remove duplicated code
     var defaults = (function () {
         var workingDirName = path.basename(process.cwd()),
             homeDir, osUserName, configFile, user;
@@ -60,6 +61,7 @@ module.exports = function (gulp, plugins, options) {
                     return done();
                 }
                 answers.appNameSlug = plugins._.slugify(answers.microChasmName);
+                answers.defaults = defaults;
 //                answers.microChasmVersion = answers.microChasmVersion;
 //                answers.includeTests = answers.includeTests;
 
@@ -71,8 +73,9 @@ module.exports = function (gulp, plugins, options) {
                 // Require the generators for all base components
                 require('./twiglet')(gulp, plugins,baseOptions );
                 require('./microstack')(gulp, plugins,baseOptions);
+                require('./sips')(gulp, plugins,baseOptions);
 
-                runSequence('twiglet', 'microstack');
+                runSequence('twiglet', 'microstack', 'sips');
 //                runSequence( 'microstack');
 
                 done();
