@@ -52,9 +52,34 @@ var options = minimist(process.argv.slice(2), knownOptions);
 //
 function getPackageJsonVersion () {
     //We parse the json file instead of using require because require caches multiple calls so the version number won't be updated
-    JSON.parse(fs.readFileSync('./package.json', 'utf8')).version;
+    return JSON.parse(require('fs').readFileSync('./package.json', 'utf8')).version;
 };
 
+//var localModuleCache = 'local_module_cache';
+var releaseDir = "_deploy_/" + getPackageJsonVersion() + "/<%=serviceNameSlug%>";
+
+var stage_sources = [
+//    './.dockerignore',
+//    './Dockerfile',
+    './apis/**/*.*',
+    './config/**/*.*',
+//    './lib/**/*.*',
+    './manifest.js',
+    './package.json',
+    './server.js',
+];
+stage_sources.push('../microstack/*.*');
+stage_sources.push('../twiglet/*.*');
+stage_sources.push('../sips/*.*');
+stage_sources.push('../samples/**/*');
+
+gulp.task('stage', getTask('stage-release', {
+    sources: stage_sources,
+    releaseDir: releaseDir
+}, function (done) {
+    plugins.util.log(plugins.util.colors.green.bgBlack('[GULP] stage files done'));
+    done();
+}));
 /**
  * Mode options: patch, minor, major, prerelease
  * Preid: string appended to version x.y.z-preid.0. Subesquent calls with --mode prerelease will increment the postfixed number
@@ -62,7 +87,9 @@ function getPackageJsonVersion () {
 gulp.task('roll-ver', getTask('roll-version', {segment: options.mode, preid:options.preid||null}, function (done) {
 }));
 
-
+/*
+Common tasks and combination tasks
+ */
 gulp.task('build', function (done) {
     Logger.debug('[GULP] build');
     done();
