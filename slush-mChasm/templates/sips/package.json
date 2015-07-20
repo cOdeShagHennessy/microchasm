@@ -1,0 +1,40 @@
+{
+  "name": "sips",
+  "version": "<%= microChasmVersion %>",
+  "description": "Build and deployment tooling for <%= appNameSlug %> chasm of microservices",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "debug": "NODE_ENV=development nodemon server.js",
+    "test": "lab --colors --leaks ",
+    "test-coverage": "lab -r html -o coverage.html"
+  },
+  "keywords": [
+    "gulp"
+  ],
+  "author": "<%= defaults.authorName %>",
+  "license": "ISC",
+  "devDependencies": {
+    "async": "^0.9.0",
+    "aws-sdk": "^2.1.23",
+    "del": "^1.1.1",
+    "event-stream": "^3.3.0",
+    "gulp-awspublish": "^1.0.6",
+    "gulp-bump": "^0.3.0",
+    "gulp-debug": "^2.0.1",
+    "gulp-git": "^1.1.0",
+    "gulp-install": "^0.4.0",
+    "gulp-load-plugins": "^0.10.0",
+    "gulp-newer": "^0.5.0",
+    "gulp-nodemon": "^2.0.2",
+    "gulp-shell": "^0.4.1",
+    "gulp-util": "^3.0.4",
+    "gulp-zip": "^3.0.2",
+    "mkdirp": "^0.5.0",
+    "run-sequence": "^1.0.2",
+    "vinyl-source-stream": "^1.1.0"
+  },
+  "dependencies": {
+    "gulp": "^3.8.11"
+  }
+}

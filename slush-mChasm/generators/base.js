@@ -61,6 +61,7 @@ module.exports = function (gulp, plugins, options) {
                     return done();
                 }
                 answers.appNameSlug = plugins._.slugify(answers.microChasmName);
+                answers.defaults = defaults;
 //                answers.microChasmVersion = answers.microChasmVersion;
 //                answers.includeTests = answers.includeTests;
 
@@ -72,8 +73,9 @@ module.exports = function (gulp, plugins, options) {
                 // Require the generators for all base components
                 require('./twiglet')(gulp, plugins,baseOptions );
                 require('./microstack')(gulp, plugins,baseOptions);
+                require('./sips')(gulp, plugins,baseOptions);
 
-                runSequence('twiglet', 'microstack');
+                runSequence('twiglet', 'microstack', 'sips');
 //                runSequence( 'microstack');
 
                 done();
