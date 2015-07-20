@@ -22,6 +22,7 @@ var microConfig = {
 
 var gulp = require('gulp');
 var runSequence = require('run-sequence');
+var minimist = require('minimist');
 //
 var sipsDir = '../sips/';
 var plugins = require('gulp-load-plugins')({
@@ -43,16 +44,22 @@ function getTask(task, options) {
     options.basedir = __dirname;
     return require(sipsDir + task)(gulp, plugins, options);
 }
+var knownOptions = {
+    string: 'mode',
+    default: { mode: 'patch' }
+};
+var options = minimist(process.argv.slice(2), knownOptions);
 //
 function getPackageJsonVersion () {
     //We parse the json file instead of using require because require caches multiple calls so the version number won't be updated
     JSON.parse(fs.readFileSync('./package.json', 'utf8')).version;
 };
 
-gulp.task('roll-patch-version', getTask('roll-version', {segment: 'patch'}, function (done) {
-}));
-
-gulp.task('roll-prerelease-version', getTask('roll-version', {segment: 'prerelease', preid:'develop'}, function (done) {
+/**
+ * Mode options: patch, minor, major, prerelease
+ * Preid: string appended to version x.y.z-preid.0. Subesquent calls with --mode prerelease will increment the postfixed number
+ */
+gulp.task('roll-ver', getTask('roll-version', {segment: options.mode, preid:options.preid||null}, function (done) {
 }));
 
 
