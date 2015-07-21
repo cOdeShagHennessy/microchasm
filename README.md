@@ -12,6 +12,7 @@ An ecosystem of separated, independent services(micro variety) that share a comm
   2. `mchasm:microapi`
  + **[microstack](./slush-mChasm/templates/microstack/README.md)** - Centralized information stores for microservice collaboration topology
  + **[twiglet](./slush-mChasm/templates/twiglet/README.md)** - Logging tooling for collaboratively felling microservices 
+ + **[sips](./slush-mChasm/templates/sips/README.md)** - Centralized build and deployment tooling for microchasm services
 
 >## Prereqs
  The following external and peer dependencies currently exist.

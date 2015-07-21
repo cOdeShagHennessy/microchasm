@@ -160,10 +160,9 @@ module.exports = function (gulp, plugins, options) {
 
                 plugins.mkdirp(APIS_DIRECTORY + answers.apiNameSlug);
 
-                //TODO:refactor all .sjs to .ejs
                 var templateDir = __dirname + '/../templates/microapi'
                 var api_sources = [
-                    templateDir + '/index.sjs',
+                    templateDir + '/index.ejs',
                     templateDir + '/ddl.js',
                     templateDir + '/package.json'
 //                    templateDir + '/.dockerignore',
@@ -172,15 +171,15 @@ module.exports = function (gulp, plugins, options) {
 //                    templateDir + '/**'
                 ];
                 if (answers.includeRedis)
-                    api_sources.push(templateDir + '/redisStore.sjs');
+                    api_sources.push(templateDir + '/redisStore.ejs');
                 if (answers.restGET)
-                    api_sources.push(templateDir + '/get.sjs');
+                    api_sources.push(templateDir + '/get.ejs');
                 if (answers.restPUT)
-                    api_sources.push(templateDir + '/put.sjs');
+                    api_sources.push(templateDir + '/put.ejs');
                 if (answers.restPOST)
-                    api_sources.push(templateDir + '/post.sjs');
+                    api_sources.push(templateDir + '/post.ejs');
                 if (answers.restDELETE)
-                    api_sources.push(templateDir + '/delete.sjs');
+                    api_sources.push(templateDir + '/delete.ejs');
 
                 gulp.src(api_sources).pipe(debug())
                     .pipe(plugins.template(answers))
@@ -188,7 +187,7 @@ module.exports = function (gulp, plugins, options) {
                         if (file.basename[0] === '_') {
                             file.basename = '.' + file.basename.slice(1);
                         }
-                        if (file.extname === '.sjs')
+                        if (file.extname === '.ejs')
                             file.extname = '.js'
                     }))
 //                    .pipe(plugins.conflict('./'))
@@ -200,8 +199,8 @@ module.exports = function (gulp, plugins, options) {
                         plugins.mkdirp('test/microapis/' + answers.apiNameSlug);
 
                         var api_test_sources = [
-                            templateDir + '/test/api-ddl-test.sjs',
-                            templateDir + '/test/api-test.sjs'
+                            templateDir + '/test/api-ddl-test.ejs',
+                            templateDir + '/test/api-test.ejs'
                         ];
                         gulp.src(api_test_sources).pipe(debug())
                             .pipe(plugins.template(answers))
@@ -209,7 +208,7 @@ module.exports = function (gulp, plugins, options) {
                                 if (file.basename[0] === '_') {
                                     file.basename = '.' + file.basename.slice(1);
                                 }
-                                if (file.extname === '.sjs')
+                                if (file.extname === '.ejs')
                                     file.extname = '.js'
                             }))
 //                        .pipe(plugins.conflict('./'))

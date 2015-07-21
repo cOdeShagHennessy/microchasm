@@ -388,7 +388,7 @@ module.exports = function (gulp, plugins, options) {
                                 if (file.basename[0] === '_') {
                                     file.basename = '.' + file.basename.slice(1);
                                 }
-                                if (file.extname === '.sjs')
+                                if (file.extname === '.ejs')
                                     file.extname = '.js'
                             }))
 //                        .pipe(plugins.conflict('./'))
