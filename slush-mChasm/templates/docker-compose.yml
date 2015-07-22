@@ -22,7 +22,7 @@ servicename:
   links:
    - redis
 
-#TODO: generate snippet to paste here to add from microservice build.
+# Paste snippet from paste-in-docker-compose.yml from your microservice above here
 
 redis:
   image: redis
