@@ -1,0 +1,74 @@
+# You can also use node:0.10.38-slim, which is ~150MB vs the 
+# ~750MB of this image. Slim makes it hard to jump inside containers
+# and debug things, so I would only recommend using it for production
+FROM nodesource/trusty:0.12.4
+
+# Other microservices use local dependency to
+# directory  `../microstack`, so we
+# put it at their expected path
+ENV CHASM <%=chasmNameSlug%>
+ENV SERVICE microstack
+ENV DEST /$CHASM/$SERVICE
+WORKDIR $DEST
+
+# A number of our microservices are tied to gulp
+# and need it available from the command line
+RUN npm install -g gulp nodemon && \
+ rm -rf /tmp/*
+
+# Changes in package.json will invalidate the
+# results of npm install
+#ADD package.json $DEST/package.json
+#RUN npm install && \
+# rm -rf /tmp/*
+
+# Place our modules somewhere safe. This avoids problems 
+# when someone mounts a host volume at $DEST with their own
+# module folders
+#RUN mkdir -p /npm/$SERVICE && \
+# mv $DEST/node_modules /npm/$SERVICE
+#ENV NODE_PATH=/npm/$SERVICE/node_modules
+
+# Add all remaining files last to delay 
+# cache invalidation
+#
+# NOTE: See .dockerignore
+ADD ./$SERVICE $DEST
+
+ # Twiglet
+# Other microservices use local dependency to
+# directory  `../twiglet`, so we
+# put it at their expected path
+ENV SERVICE twiglet
+ENV DEST /$CHASM/$SERVICE
+WORKDIR $DEST
+
+# Add all remaining files last to delay
+# cache invalidation
+#
+# NOTE: See .dockerignore
+ADD ./$SERVICE $DEST
+
+ # Sips
+# Other microservices use local dependency to
+# directory  `../sips`, so we
+# put it at their expected path
+ENV SERVICE sips
+ENV DEST /$CHASM/$SERVICE
+WORKDIR $DEST
+
+ # Samples
+# Other microservices use local dependency to
+# directory  `../samples`, so we
+# put it at their expected path
+ENV SERVICE samples
+ENV DEST /$CHASM/$SERVICE
+WORKDIR $DEST
+
+# Add all remaining files last to delay
+# cache invalidation
+#
+# NOTE: See .dockerignore
+ADD ./$SERVICE $DEST
+# Just exit if someone tries to run base image
+CMD ["true"]

@@ -1,0 +1,41 @@
+# Pull base image
+FROM <%=chasmNameSlug%>-base:dev
+
+ENV CHASM <%=chasmNameSlug%>
+ENV SERVICE <%=serviceNameSlug%>
+ENV DEST /$CHASM/$SERVICE
+WORKDIR $DEST
+
+# Changes in package.json will invalidate the 
+# results of npm install
+ADD package.json $DEST/package.json
+RUN cd /$DEST && npm install && \
+ rm -rf /tmp/*
+
+# Add gulpfile and other files that should invalidate the 
+# result of gulp pm-cache 
+ADD gulpfile.js $DEST/gulpfile.js
+ADD manifest.js $DEST/manifest.js
+ADD server.js $DEST/server.js
+#RUN gulp pm-cache && \
+# rm -rf /tmp/*
+
+# Place our modules somewhere safe. This avoids problems 
+# when someone mounts a host volume at $DEST with their own
+# module folders
+#RUN mkdir -p /npm/$SERVICE && \
+# mv $DEST/node_modules /npm/$SERVICE
+# mv $DEST/local_module_cache /npm/$SERVICE
+# ENV NODE_PATH=/npm/$SERVICE/node_modules:/npm/$SERVICE/local_module_cache
+# ENV NODE_PATH=/npm/$SERVICE/node_modules
+
+# Add all remaining files last to avoid 
+# cache invalidation
+#
+# NOTE: See .dockerignore
+ADD . $DEST
+
+EXPOSE 8081
+
+# Define default command
+CMD ["npm", "start"]

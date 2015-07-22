@@ -60,13 +60,13 @@ module.exports = function (gulp, plugins, options) {
                 if (!answers.moveon) {
                     return done();
                 }
-                answers.appNameSlug = plugins._.slugify(answers.microChasmName);
+                answers.chasmNameSlug = plugins._.slugify(answers.microChasmName);
                 answers.defaults = defaults;
 //                answers.microChasmVersion = answers.microChasmVersion;
 //                answers.includeTests = answers.includeTests;
 
                 var baseOptions = { microChasmAnswers:answers }
-//                    "answers.appName":answers.appNameSlug,
+//                    "answers.appName":answers.chasmNameSlug,
 //                    "microChasmVersion":answers.microChasmVersion,
 //                    "includeTests":answers.includeTests
                 //
@@ -74,6 +74,27 @@ module.exports = function (gulp, plugins, options) {
                 require('./twiglet')(gulp, plugins,baseOptions );
                 require('./microstack')(gulp, plugins,baseOptions);
                 require('./sips')(gulp, plugins,baseOptions);
+
+                var templateDir = __dirname + '/../templates/'
+                var docker_sources = [
+                    templateDir + '/build-docker.sh',
+                    templateDir + '/.dockerignore',
+                    templateDir + '/docker-compose.yml',
+                    templateDir + '/Dockerfile.base',
+                    templateDir + '/Dockerfile.dev'
+                ];
+                gulp.src(docker_sources).pipe(plugins.debug())
+                    .pipe(plugins.template(answers))
+                    .pipe(plugins.rename(function (file) {
+                        if (file.basename[0] === '_') {
+                            file.basename = '.' + file.basename.slice(1);
+                        }
+                    }))
+//                    .pipe(plugins.conflict('./'))
+                    .pipe(gulp.dest('.' ))
+                    .on('end', function () {
+//                        done();
+                    });
 
                 runSequence('twiglet', 'microstack', 'sips');
 //                runSequence( 'microstack');

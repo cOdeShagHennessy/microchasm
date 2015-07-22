@@ -1,0 +1,6 @@
+FROM  <%=chasmNameSlug%>-base
+
+# Install devDependencies too
+ENV NODE_ENV development
+RUN npm install && \
+ rm -rf /tmp/*
