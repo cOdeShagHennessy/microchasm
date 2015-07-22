@@ -7,23 +7,23 @@
 #  - Set env variable so Confidence loads docker environment
 #  - mount host source code in container so latest source is used
 
-servicename:
-  build: ./servicename
-  dockerfile: Dockerfile.frombase
-  command: nodemon server.js
-  environment:
-   - DEBUG_LEVEL=debug
-   - NODE_ENV=local_docker
-   - LOG_STYE=default
-  ports:
-   - "8081:9080"
-  volumes:
-   - ./servicename:/<%=chasmNameSlug%>/servicename
-  links:
-   - redis
+#servicename:
+#  build: ./servicename
+#  dockerfile: Dockerfile.frombase
+#  command: nodemon server.js
+#  environment:
+#   - NODE_ENV=local_docker
+#   - LOG_STYE=default
+#  ports:
+#   - "8081:9080"
+#  volumes:
+#   - ./servicename:/<%=chasmNameSlug%>/servicename
+#  links:
+#   - redis
 
 # Paste snippet from paste-in-docker-compose.yml from your microservice above here
 
+#TODO: collect redis, rabbitmq or other services support from chasm creation or update file when microservices added
 redis:
   image: redis
   ports:

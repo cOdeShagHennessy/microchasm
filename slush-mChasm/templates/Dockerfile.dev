@@ -2,5 +2,8 @@ FROM  <%=chasmNameSlug%>-base
 
 # Install devDependencies too
 ENV NODE_ENV development
-RUN npm install && \
+
+# A number of our microservices are tied to gulp
+# and need it available from the command line
+RUN npm install -g gulp nodemon && \
  rm -rf /tmp/*
