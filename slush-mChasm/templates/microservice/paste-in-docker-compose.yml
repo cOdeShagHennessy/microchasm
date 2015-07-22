@@ -1,0 +1,19 @@
+
+# docker-compose snippet for <%=serviceNameSlug%>
+
+<%=serviceNameSlug%>:
+  build: ./<%=serviceNameSlug%>
+  dockerfile: Dockerfile.frombase
+  command: nodemon server.js
+  environment:
+   - DEBUG_LEVEL=debug
+   - NODE_ENV=local_docker
+   - LOG_STYE=default
+  ports:
+   - "<%=servicePort%>:<%=servicePort%>"
+  volumes:
+   - ./<%=serviceNameSlug%>:/<%=chasmNameSlug%>/<%=serviceNameSlug%><% if(includeRedis){ %>
+  links:
+   - redis <% }%>
+
+#

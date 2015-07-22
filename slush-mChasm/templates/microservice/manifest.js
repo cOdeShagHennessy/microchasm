@@ -34,14 +34,10 @@ module.exports = function (Config) {
 
                 }
             },
-//            './apis/sms': [{
+// Register microapis here
+//            './apis/microapiName': [{
 //                routes: {
-//                    prefix: '/sms'
-//                }
-//            }],
-//            './apis/newsfeed': [{
-//                routes: {
-//                    prefix: '/newsfeed'
+//                    prefix: '/microapiName'
 //                }
 //            }]
 
