@@ -1,7 +1,7 @@
 {
   "name": "sips",
   "version": "<%= microChasmVersion %>",
-  "description": "Build and deployment tooling for <%= appNameSlug %> chasm of microservices",
+  "description": "Build and deployment tooling for <%= chasmNameSlug %> chasm of microservices",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

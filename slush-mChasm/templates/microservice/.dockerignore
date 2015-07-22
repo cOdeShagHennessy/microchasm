@@ -1,0 +1,10 @@
+_deploy_
+*.zip
+node_modules
+.git
+.idea
+.gitignore
+*.log
+test
+package.json.init
+package.json.PostInit

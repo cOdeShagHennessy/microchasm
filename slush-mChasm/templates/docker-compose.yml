@@ -1,0 +1,33 @@
+# Defines how to run microChasm microservices inside
+# Docker containers
+#
+# Tuned for development
+# General patterns: 
+#  - Set build directory to microservice root
+#  - Set env variable so Confidence loads docker environment
+#  - mount host source code in container so latest source is used
+
+#servicename:
+#  build: ./servicename
+#  dockerfile: Dockerfile.frombase
+#  command: nodemon server.js
+#  environment:
+#   - NODE_ENV=local_docker
+#   - LOG_STYE=default
+#  ports:
+#   - "8081:9080"
+#  volumes:
+#   - ./servicename:/<%=chasmNameSlug%>/servicename
+#  links:
+#   - redis
+
+# Paste snippet from paste-in-docker-compose.yml from your microservice above here
+
+#TODO: collect redis, rabbitmq or other services support from chasm creation or update file when microservices added
+redis:
+  image: redis
+  ports:
+  - "6379:6379"
+  volumes:
+  - /data/redis:/data
+

@@ -108,9 +108,11 @@ module.exports = function (gulp, plugins, options) {
 
                 var templateDir = __dirname + '/../templates/microservice'
                 var service_sources = [
-//                    templateDir + '/.dockerignore',
+                    templateDir + '/.dockerignore',
                     templateDir + '/.gitignore',
-//                    templateDir + '/Dockerfile',
+                    templateDir + '/Dockerfile.frombase',
+                    templateDir + '/paste-in-docker-compose.yml',
+                    templateDir + '/server.ejs',
                     templateDir + '/**'
                 ];
 //                gulp.src(__dirname + '/../templates/microservice/**/*.*').pipe(debug())
@@ -120,7 +122,7 @@ module.exports = function (gulp, plugins, options) {
                         if (file.basename[0] === '_') {
                             file.basename = '.' + file.basename.slice(1);
                         }
-                        if (file.extname === '.sjs')
+                        if (file.extname === '.ejs')
                          file.extname = '.js'
                     }))
 //                    .pipe(plugins.conflict('./'))
@@ -131,43 +133,6 @@ module.exports = function (gulp, plugins, options) {
                     });
 
             });
-
-        //
-        // Include tests
-//                if (answers.includeTests) {
-//                    plugins.mkdirp('microservice/test');
-//                    plugins.mkdirp('samples/microservice');
-////                    gulp.src(__dirname + '/../templates/microservice/test/**').pipe(debug())
-//                    gulp.src(__dirname + '/../../microservice/test/**').pipe(debug())
-//                        .pipe(plugins.template(answers))
-//                        .pipe(plugins.rename(function (file) {
-//                            if (file.basename[0] === '_') {
-//                                file.basename = '.' + file.basename.slice(1);
-//                            }
-//                        }))
-//                        .pipe(plugins.conflict('./'))
-//                        .pipe(gulp.dest('./microservice/test'))
-//                        .pipe(plugins.install())
-//                        .on('end', function () {
-////                        done();
-//                        });
-//                    gulp.src(__dirname + '/../../samples/microservice/**').pipe(debug())
-//                        .pipe(plugins.template(answers))
-//                        .pipe(plugins.rename(function (file) {
-//                            if (file.basename[0] === '_') {
-//                                file.basename = '.' + file.basename.slice(1);
-//                            }
-//                        }))
-//                        .pipe(plugins.conflict('./'))
-//                        .pipe(gulp.dest('./samples/microservice'))
-//                        .pipe(plugins.install())
-//                        .on('end', function () {
-//                            return gulp;
-//                        });
-//                }
-//                else
-//                    return gulp;
     });
-//});
 return gulp;
 };
