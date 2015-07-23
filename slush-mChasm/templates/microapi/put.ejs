@@ -43,10 +43,13 @@ module.exports = {
            else
                reply(request.payload).code(201);
        });<% } else {%>
-    if (request.params.uid.indexOf("-999")===0)
-        reply({uid:"no uid"}).code(404);
-    else
-        reply(request.payload).code(200);<% }%>
+       if (request.params.uid.indexOf("-999")===0)
+            reply({uid:"no uid"}).code(404);
+        else if (request.payload.sample.indexOf("exists") === 0){
+            reply(request.payload).code(200);
+        }
+        else
+            reply({uid:request.payload.uid,sample:request.payload.sample}).code(201);<% }%>
     },
     response: {schema: <%=apiNameSlug%>DDL.schema}
 };

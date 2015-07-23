@@ -13,8 +13,16 @@ module.exports = function () {
                 callback({}, "Could not find");
         }
         else {
-            if (callback)
-                callback({uid:params.uid,sample:"<%=apiNameSlug%>DDL sample property"});
+            redisClient.get(<%=apiNameSlug%>StoreKey(params.uid), function(err, reply) {
+                if (err) throw err
+                // reply is null when the key is missing
+                Logger.debug("redis found %s", reply);
+                if (reply) {
+                    if (callback) callback(JSON.parse(reply) || null);
+                }
+                else
+                    if (callback) callback(null, "Contest not found for " + params.uid);
+            });
         }
     };<% }%><% if(restPUT || restPOST){ %>
 
@@ -27,22 +35,50 @@ module.exports = function () {
                 callback({uid: "uid exists", sample: payload.sample, exists:true});
         }
         else {
-            if (callback)
-                callback({uid: "generateduid", sample: payload.sample, exists:false});
+           if (!params.uid) {
+                redisClient.incr(<%=apiNameSlug%>SeqKey(), function (err, reply) {
+                    Logger.debug("redis returned new uid %s", reply);
+                    redisClient.set(<%=apiNameSlug%>StoreKey(reply, payload), JSON.stringify(payload), function (err, res) {
+                        if (err) throw err
+                        Logger.debug("redis returned %s", res);
+                        if (callback)
+                            callback({uid: reply.toString(), sample: payload.sample, exists: false});
+                    })
+                });
+            } else {
+                redisClient.set(<%=apiNameSlug%>StoreKey(params.uid), JSON.stringify(payload), function (err, res) {
+                    if (err) throw err
+                    Logger.debug("redis returned %s", res);
+                    if (callback)
+                        callback({uid: params.uid, sample: payload.sample, exists: false});
+                })
+            }
         }
     };<% }%><% if(restDELETE){ %>
 
     module.delete = function (redisClient, params, query, callback) {
         if (params.uid === "-999") {
             if (callback)
-                callback("Could not delete");
+                callback(0,"Could not delete");
         }
         else {
-            if (callback)
-                callback();
+            redisClient.del(<%=apiNameSlug%>StoreKey(params.uid), (function (err, data) {
+                    if (err) throw err;
+                    Logger.debug("redis removed %d", data);
+                    if (callback)
+                        callback(data);
+                })
+            );
         }
     };<% }%>
-        
+
 
     return module;
 }
+
+var <%=apiNameSlug%>SeqKey = function () {
+    return '<%=apiNameSlug%>:seq';
+};
+var <%=apiNameSlug%>StoreKey = function (uid){
+    return '<%=apiNameSlug%>:' + uid
+};

@@ -29,13 +29,13 @@ module.exports = {
         // Storage
         //    <% if(includeRedis){ %>
         var redisClient = request.server.plugins['hapi-redis'].client;
-        storage.delete(redisClient, request.params, request.query, function(err){
+        storage.delete(redisClient, request.params, request.query, function(data, err){
             if(err) {
                 Logger.error ("delete returned", err);
                 reply().code(404)
             }
             else  {
-                Logger.debug("deleted <%=apiNameSlug%> with uid = " + request.params.uid);
+                Logger.debug("deleted %s <%=apiNameSlug%> with uid ", data, request.params.uid);
                 reply().code(204);
             }
         });<% } else {%>
