@@ -7,7 +7,7 @@ Adding a new microapi to your microservice through scaffolding with `slush mchas
 
 ### Run the microapi scaffolding generator:
 
->1. From inside your microservice directory, _e.g. `/orgChasm/serviceMe`_
+1. From inside your microservice directory, _e.g. `/orgChasm/serviceMe`_
 ```$ slush mchasm:microapi```
 1. Answer scaffolding questions:
 ```
@@ -27,7 +27,8 @@ Adding a new microapi to your microservice through scaffolding with `slush mchas
 selecting redis integration with the microservice) (Y/n) n 
 ? Continue? (Y/n) Y
 ```
-1. Update the microservice manifest.js to associate new microapi
+1. **(THIS IS NOW AUTOMATICALLY PERFORMED BY SCAFFOLDING GENERATOR)** 
+Update the microservice manifest.js to associate new microapi
 ```            
  './apis/collector': [{
                 routes: {

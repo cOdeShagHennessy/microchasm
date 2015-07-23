@@ -1,6 +1,5 @@
 
 # docker-compose snippet for <%=serviceNameSlug%>
-
 <%=serviceNameSlug%>:
   build: ./<%=serviceNameSlug%>
   dockerfile: Dockerfile.frombase
@@ -15,5 +14,4 @@
    - ./<%=serviceNameSlug%>:/<%=chasmNameSlug%>/<%=serviceNameSlug%><% if(includeRedis){ %>
   links:
    - redis <% }%>
-
 #

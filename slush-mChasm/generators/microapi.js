@@ -216,7 +216,17 @@ module.exports = function (gulp, plugins, options) {
                             .on('end', function () {
 //                              done();
                             });
+                        // Register api with microservice
+                        gulp.src('./manifest.js')
+                            .pipe(plugins.injectString.before("//<insert new microapi above this line>",
+                                "'./apis/"+answers.apiNameSlug + "': [{\n" +
+                                "\t\t\t\troutes: {\n" +
+                                "\t\t\t\t\tprefix: '/"+answers.apiNameSlug+"'\n" +
+                                "\t\t\t\t}\n" +
+                                "\t\t\t}],\n\t\t\t"))
+                            .pipe(gulp.dest('.'));
                     });
+
             });
     });
 //});
