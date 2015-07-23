@@ -408,6 +408,27 @@ module.exports = function (gulp, plugins, options) {
                                 }
                             });
 
+                        // Add microservice configuation to Dockerfile.base.
+                        gulp.src('./Dockerfile.base')
+                            .pipe(plugins.injectString.before("# <Insert nanostacks configuration above this>",
+                                "# Nanostack for " + answers.nsNameSlug + "\n" +
+                                "# Microservices use local dependency to `../nanos/" + answers.nsNameSlug + " so we put it at their expected path\n" +
+                                "ENV NSTACK " + answers.nsNameSlug + "\n" +
+                                "ENV DEST /$CHASM/nanos/" + answers.nsNameSlug + "\n" +
+                                "WORKDIR $DEST\n\n" +
+                                "ADD ./nanos/$NSTACK $DEST\n\n"))
+                            .pipe(gulp.dest('.'))
+                            .on('end', function () {
+                                //Update the Docker base image for the chasm to include this nanostack
+                                var options = {
+                                    cwd: process.cwd()
+                                }
+                                var tasks = [];
+                                tasks.push('sh build-docker.sh');
+                                console.log(colors.bgMagenta(" running " + tasks));
+                                plugins.shell.task(tasks, options)();
+                            });
+
                     });
                     //TODO: when adding a nanostack needs to update the Dockerfile.base or add an additional dockerfile and add that to the base image
                 });

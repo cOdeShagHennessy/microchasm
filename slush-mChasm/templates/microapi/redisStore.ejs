@@ -21,7 +21,7 @@ module.exports = function () {
                     if (callback) callback(JSON.parse(reply) || null);
                 }
                 else
-                    if (callback) callback(null, "Contest not found for " + params.uid);
+                    if (callback) callback(null, "<%=apiNameSlug%> not found for " + params.uid);
             });
         }
     };<% }%><% if(restPUT || restPOST){ %>
@@ -38,6 +38,7 @@ module.exports = function () {
            if (!params.uid) {
                 redisClient.incr(<%=apiNameSlug%>SeqKey(), function (err, reply) {
                     Logger.debug("redis returned new uid %s", reply);
+                    payload.uid = reply.toString();
                     redisClient.set(<%=apiNameSlug%>StoreKey(reply, payload), JSON.stringify(payload), function (err, res) {
                         if (err) throw err
                         Logger.debug("redis returned %s", res);

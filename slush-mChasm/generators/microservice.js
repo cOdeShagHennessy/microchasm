@@ -134,8 +134,8 @@ module.exports = function (gulp, plugins, options) {
 
                 // TODO: how to conditionally add redis link??
                 // Add microservice configuation to docker-compose.yml
-                gulp.src('./docker-compose.yml')
-                    .pipe(plugins.injectString.before("#<Insert microservice configuration above this>",
+                gulp.src('./docker-compose.yml').pipe(plugins.debug())
+                    .pipe(plugins.injectString.before("# <Insert microservice configuration above this>",
                         "# docker-compose snippet for "+answers.serviceNameSlug + "\n" +
                         ""+answers.serviceNameSlug+":\n" +
                         "  build: ./"+answers.serviceNameSlug+"\n" +

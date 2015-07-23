@@ -31,6 +31,7 @@ docker and docker-compose to run these services along with redis integration (if
  1. Answer questions 
 
 >## Register microservice for use with docker-compose
+###**(THIS IS NOW AUTOMATICALLY PERFORMED BY SCAFFOLDING GENERATOR)** 
 1. Open /orgchasm/dleague/paste-in-docker-compose.yml -->select all-->copy 
 1. Open /orgchasm/docker-compose.yml --> paste at 
 ```#Paste snippet from paste-in-docker-compose.yml from your microservice above here``` 
@@ -46,7 +47,8 @@ docker and docker-compose to run these services along with redis integration (if
  ```slush mchasm:microapi``` (e.g. microapi name = users)
  1. Register microapi with _dleague_ microservice
  ```open orgchasm/dleague/manifest.js```
- 1. add users registration: 
+ 1. **(THIS IS NOW AUTOMATICALLY PERFORMED BY SCAFFOLDING GENERATOR)** 
+ add users registration: 
              ```'./apis/users': [{
                 routes: {
                     prefix: '/users'
