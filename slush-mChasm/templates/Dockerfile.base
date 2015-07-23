@@ -61,5 +61,8 @@ WORKDIR $DEST
 # NOTE: See .dockerignore
 ADD ./$SERVICE $DEST <% }%>
 
+
+# <Insert nanostacks configuration above this>
+
 # Just exit if someone tries to run base image
 CMD ["true"]

@@ -34,12 +34,7 @@ module.exports = function (Config) {
 
                 }
             },
-// Register microapis here
-//            './apis/microapiName': [{
-//                routes: {
-//                    prefix: '/microapiName'
-//                }
-//            }]
+            //<insert new microapi above this line>
 
         }
     };

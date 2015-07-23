@@ -21,7 +21,7 @@
 #  links:
 #   - redis
 
-# Paste snippet from paste-in-docker-compose.yml from your microservice above here
+# <Insert microservice configuration above this>
 
 #TODO: collect redis, rabbitmq or other services support from chasm creation or update file when microservices added
 redis:

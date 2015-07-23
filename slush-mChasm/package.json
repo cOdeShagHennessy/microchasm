@@ -1,7 +1,7 @@
 {
   "name": "slush-mchasm",
   "description": "Generate a microchasm service scaffolding",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "homepage": "https://github.com/codeshaghennessy@gmail.com/slush-mchasm",
   "author": {
     "name": "cOdeShag Hennessy",
@@ -33,6 +33,7 @@
     "gulp": "^3.6.2",
     "gulp-conflict": "^0.1.1",
     "gulp-debug": "^2.0.1",
+    "gulp-inject-string": "0.0.2",
     "gulp-install": "^0.1.4",
     "gulp-load-plugins": "^1.0.0-rc.1",
     "gulp-rename": "^1.2.0",
