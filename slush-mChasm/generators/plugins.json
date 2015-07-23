@@ -2,6 +2,7 @@
   "dependencies": {
     "gulp-conflict": "^0.1.1",
     "gulp-debug": "^2.0.1",
+    "gulp-inject-string": "0.0.2",
     "gulp-install": "^0.1.4",
     "gulp-load-plugins": "^1.0.0-rc.1",
     "gulp-rename": "^1.2.0",

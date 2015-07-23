@@ -132,6 +132,27 @@ module.exports = function (gulp, plugins, options) {
 //                        done();
                     });
 
+                // TODO: how to conditionally add redis link??
+                // Add microservice configuation to docker-compose.yml
+                gulp.src('./docker-compose.yml')
+                    .pipe(plugins.injectString.before("#<Insert microservice configuration above this>",
+                        "# docker-compose snippet for "+answers.serviceNameSlug + "\n" +
+                        ""+answers.serviceNameSlug+":\n" +
+                        "  build: ./"+answers.serviceNameSlug+"\n" +
+                        "  dockerfile: Dockerfile.frombase\n" +
+                        "  command: nodemon server.js\n" +
+                        "  environment:\n" +
+                        "   - DEBUG_LEVEL=debug\n" +
+                        "   - NODE_ENV=local_docker\n" +
+                        "   - LOG_STYLE=default\n" +
+                        "  ports:\n" +
+                        "   - "+answers.servicePort+":"+answers.servicePort+"\n" +
+                        "  volumes:\n" +
+                        "   - ./"+answers.serviceNameSlug+":/"+answers.chasmNameSlug+"/"+answers.serviceNameSlug+"\n" +
+                        "  links:\n" +
+                        "   - redis\n"))
+                    .pipe(gulp.dest('.'));
+
             });
     });
 return gulp;

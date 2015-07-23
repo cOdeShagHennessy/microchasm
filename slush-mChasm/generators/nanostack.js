@@ -145,9 +145,9 @@ module.exports = function (gulp, plugins, options) {
 
             //files.map(function (file) {
 
-           //     return path.join(p, file);
-           // }).
-           files.filter(function (file) {
+            //     return path.join(p, file);
+            // }).
+            files.filter(function (file) {
                 return fs.statSync(path.join(p, file)).isDirectory();
             }).forEach(function (dir) {
 //                console.log("%s ", dir);
@@ -173,7 +173,7 @@ module.exports = function (gulp, plugins, options) {
             message:  "For what services do you want to install this nanostack?",
             name:     "installForServices",
             choices:  serviceChoices,
-            when:    function (answers) {
+            when:     function (answers) {
                 return answers.installInServices;
             },
             validate: function () {
@@ -398,7 +398,7 @@ module.exports = function (gulp, plugins, options) {
                                 if (serviceChoices.installInServices) {
                                     serviceChoices.installForServices.forEach(function (entry) {
                                         var options = {
-                                            cwd:  process.cwd() + '/' + entry
+                                            cwd: process.cwd() + '/' + entry
                                         }
                                         var tasks = [];
                                         tasks.push('npm install --save ../' + NANOS_DIRECTORY + answers.nsNameSlug);
@@ -407,7 +407,9 @@ module.exports = function (gulp, plugins, options) {
                                     });
                                 }
                             });
+
                     });
+                    //TODO: when adding a nanostack needs to update the Dockerfile.base or add an additional dockerfile and add that to the base image
                 });
 
             });
