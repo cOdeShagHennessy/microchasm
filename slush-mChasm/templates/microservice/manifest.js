@@ -36,6 +36,9 @@ module.exports = function (Config) {
             },
             //<insert new microapi above this line>
 
+            // microlibs
+            //<insert new microlib above this line>
+
         }
     };
 

@@ -10,6 +10,7 @@ A microchasm is an ecosystem comprised of separated, independent services(micro 
 + Sub-generators: 
 ``` mchasm:microservice ```
 ``` mchasm:microapi ```
+``` mchasm:microlib ```
 ``` mchasm:nanostack ```
 + **[microstack](./slush-mChasm/templates/microstack/README.md)** - Centralized information stores for microservice collaboration topology
 + **[twiglet](./slush-mChasm/templates/twiglet/README.md)** - Logging tooling for collaboratively felling microservices 
@@ -30,4 +31,5 @@ The following external and peer dependencies currently exist.
 >## [Creating a microchasm](./slush-mChasm/docs/MCHASMSETUP.md)
 ## [Adding a microservice to your microchasm](./slush-mChasm/docs/MICROSERVICESETUP.md)
 ## [Adding a microapi to your microservice](./slush-mChasm/docs/MICROAPISETUP.md)
+## [Adding a microlib to your microservice](./slush-mChasm/docs/MICROLIBSETUP.md)
 ## [Full sample instructions using docker/docker-compose](./slush-mChasm/docs/SAMPLEINSTRUCTIONSWITHDOCKER.md)

@@ -1,7 +1,7 @@
 {
   "name": "slush-mchasm",
   "description": "Generate a microchasm service scaffolding",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "homepage": "https://github.com/codeshaghennessy@gmail.com/slush-mchasm",
   "author": {
     "name": "cOdeShag Hennessy",
@@ -22,7 +22,7 @@
   ],
   "main": "slushfile.js",
   "engines": {
-    "node": ">= 0.12.04",
+    "node": ">= 0.12.4",
     "npm": ">=2.10.1"
   },
   "scripts": {
