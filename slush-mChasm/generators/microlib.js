@@ -183,24 +183,18 @@ module.exports = function (gulp, plugins, options) {
                     answers.descHuman = plugins._.humanize(answers.libDescription);
                     answers.libExposureSlug = answers.libExposure.replace(/\s+/g, '');
 
-                    console.log('microlib called ' + answers.libNameSlug);
-                    console.log('microlib desc ' + answers.descHuman);
-                    console.log('library exposes:' + answers.libExposureSlug);
+//                    console.log('microlib called ' + answers.libNameSlug);
+//                    console.log('microlib desc ' + answers.descHuman);
+//                    console.log('library exposes:' + answers.libExposureSlug);
 
                     plugins.mkdirp(LIBS_DIRECTORY + answers.libNameSlug);
 
                     var templateDir = __dirname + '/../templates/microlib'
-                    var api_sources = [
+                    var lib_sources = [
                         templateDir + '/index.ejs',
-//                        templateDir + '/ddl.js',
-//                        templateDir + '/package.json'
-//                    templateDir + '/.dockerignore',
-//                    templateDir + '/.gitignore',
-//                    templateDir + '/Dockerfile',
-//                    templateDir + '/**'
                     ];
 
-                    gulp.src(api_sources).pipe(debug())
+                    gulp.src(lib_sources).pipe(debug())
                         .pipe(plugins.template(answers))
                         .pipe(plugins.rename(function (file) {
                             if (file.basename[0] === '_') {

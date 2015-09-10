@@ -1,4 +1,4 @@
-MicroSetup
+Microapi Setup
 =============================================================================
 Adding a new microapi to your microservice through scaffolding with `slush mchasm:microapi`
 
