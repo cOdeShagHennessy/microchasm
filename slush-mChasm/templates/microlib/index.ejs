@@ -1,0 +1,47 @@
+/**
+ * <%= userName %> generated on <% var date = new Date()%><%=date.toLocaleString()%> using slush-mChasm.
+ * Author:<%= authorName %>
+ * Email:<%= authorEmail %>
+ */
+var Joi = require('joi');
+var Logger = require('twiglet')(process.env.DEBUG_LEVEL || 'info', process.env.LOG_STYLE || '');
+var optionsSchema = Joi.object({
+    // <%=libNameSlug%>%> Schema <% _.forEach(fields, function(field){%>
+    <%=field.name%>: Joi.<%=(field.type)%>().required().description("<%=field.description%>"),<% }); %>
+}).meta({
+    className: "optionSchema",
+    description: "<%=descHuman%>"
+});
+
+var validateOptions = function (options) {
+    Joi.validate(
+        options,
+        optionsSchema, {abortEarly: false, allowUnknown: true}, function (err) {
+            if (err) {
+                Logger.error('Error: invalidated %j %s', options, err);
+                return err;
+            }
+            Logger.trace('validated %j', options);
+        });
+};
+
+module.exports.register = function (plugin, options, next) {
+    plugin.expose('<%=libExposureSlug%>', function (methodOpts, callback) {
+        Logger.data("Called <%=libExposureSlug%> with %j", methodOpts)
+        var err = validateOptions(methodOpts);
+        if (err) {
+            callback(null,err)
+        }
+        else if (callback){
+            callback(methodOpts)
+        }
+        else return methodOpts;
+
+    });
+    next();
+}
+
+module.exports.register.attributes = {
+    name:    '<%=libNameSlug%>',
+    version: '<%=libVersion%>'
+};

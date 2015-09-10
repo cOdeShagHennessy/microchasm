@@ -1,0 +1,50 @@
+var use = require('rekuire');
+var BDD = use('test/bdd');
+var Logger = use('twiglet')(process.env.DEBUG_LEVEL || 'test', process.env.LOG_STYLE || '');
+//
+
+BDD.describe('<%=libNameSlug%> microlib Test', function () {
+    var Hapi = require('hapi');
+    var server = new Hapi.Server();
+
+    BDD.before(function (done) {
+
+        server.connection({
+            port: 3004
+        });
+
+        server.register({
+            register: use('libs/<%=libNameSlug%>')
+        }, function (err) {
+            BDD.expect(err).to.not.exist();
+            BDD.expect(server.plugins["<%=libNameSlug%>"]).to.exist();
+            done();
+        });
+    });
+
+    BDD.it('Test <%=libNameSlug%> plugin loads from the manifest', function (done) {
+        BDD.expect(server.plugins["<%=libNameSlug%>"]).to.exist();
+        Logger.test("Assertions: %d", BDD.count());
+        Logger.test("Incomplete assertions: %d", BDD.incomplete());
+        done();
+    });
+    // 
+    BDD.it("<%=libNameSlug%> calls <%=libExposureSlug%>", function (done) {
+        var libData = {<% _.forEach(fields, function(field) { %>
+            <%=field.name%>: <%switch (field.type) { case 'string': %>"<%=field.defValue%>",<%break;case 'date': %>Date.now(),<%break; default: %><%=field.defValue%>, <%}%> <% }); %>
+        };
+        server.plugins['<%=libNameSlug%>'].<%=libExposureSlug%>(libData, function (reply, error) {
+            Logger.test("<%=libNameSlug%>.<%=libExposureSlug%> returned: ", reply);
+            BDD.expect(error).to.not.exist();
+            Logger.test("Assertions: %d", BDD.count());
+            Logger.test("Incomplete assertions: %d", BDD.incomplete());
+            done();
+        });
+    });//
+
+    BDD.after(function (done) {
+        //clean up
+        done();
+    });
+
+});

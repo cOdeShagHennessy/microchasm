@@ -27,8 +27,39 @@ var plugins = require('gulp-load-plugins')({
 
 var options = {};
 
+//TODO: pass defaults i.e. author, email, working dir etc. to generators To refactor and remove duplicated code
+options.defaults= (function () {
+    var workingDirName = path.basename(process.cwd()),
+        homeDir, osUserName, configFile, user;
+
+    if (process.platform === 'win32') {
+        homeDir = process.env.USERPROFILE;
+        osUserName = process.env.USERNAME || path.basename(homeDir).toLowerCase();
+    }
+    else {
+        homeDir = process.env.HOME || process.env.HOMEPATH;
+        osUserName = homeDir && homeDir.split('/').pop() || 'root';
+    }
+
+    configFile = path.join(homeDir, '.gitconfig');
+    user = {};
+
+    if (require('fs').existsSync(configFile)) {
+        user = require('iniparser').parseSync(configFile).user;
+    }
+
+    return {
+        workingDir:     workingDirName,
+        userName:    osUserName || format(user.name || ''),
+        authorName:  user.name || '',
+        authorEmail: user.email || ''
+    };
+})();
+
 //TODO: pass defaults i.e. author, email, workind dir etc. to generators To refactor and remove duplicated code
 gulp = require('./generators/base')(gulp,plugins,options);
 gulp = require('./generators/microservice')(gulp,plugins,options);
 gulp = require('./generators/microapi')(gulp,plugins,options);
 gulp = require('./generators/nanostack')(gulp,plugins,options);
+gulp = require('./generators/microlib')(gulp,plugins,options);
+
