@@ -19,7 +19,7 @@ module.exports = function (gulp, plugins, options) {
 
         var fieldPrompts = [{
             name:     'fieldName',
-            message:  'What do you want to call this property?',
+            message:  'What do you want to call this option property?',
             validate: function (input) {
                 var namePattern = /^([a-zA-Z]){1}(.){2,}$/
                 if (namePattern.test(input)) {
@@ -35,7 +35,7 @@ module.exports = function (gulp, plugins, options) {
             type:    "list",
             message: "What type is this property?",
             name:    "fieldType",
-            choices: ["string", "number", "boolean", "date"],
+            choices: ["string", "number", "boolean", "date", "object"],
             default: "string",
             when:    function (addProps) {
                 return addProps
@@ -80,7 +80,7 @@ module.exports = function (gulp, plugins, options) {
         }];
 
         if (addProps) {
-            console.log(colors.cyan("Adding a new property"));
+            console.log(colors.cyan("Adding a new option property to configure this mircrolib"));
             plugins.inquirer.prompt(fieldPrompts, function (responses) {
                 fields.push({
                     name:     responses.fieldName,
@@ -93,6 +93,96 @@ module.exports = function (gulp, plugins, options) {
                     newFields(addProps, cb);
                 } else {
                     console.log("fields", fields);
+                    cb(responses);
+                }
+            });
+        } else cb();
+    };
+
+    var methodParams = [];
+    /**
+     * Recursively add new properties to the nanostack
+     * @param addParams
+     * @param cb
+     */
+    function addMethodParams(addParams, cb) {
+
+        var methodPrompts = [{
+            name:     'paramName',
+            message:  'What do you want to call this parameter?',
+            validate: function (input) {
+                var namePattern = /^([a-zA-Z]){1}(.){2,}$/
+                if (namePattern.test(input)) {
+                    return true;
+                }
+                else return 'You need to provide a name (must start with a alpha character and be longer than 3 characters)';
+                //TODO:validate if the field already exists in this list
+            },
+            when:     function (addParams) {
+                return addParams;
+            }
+        }, {
+            type:    "list",
+            message: "What type is this parameter?",
+            name:    "paramType",
+            choices: ["string", "number", "boolean", "date", "object"],
+            default: "string",
+            when:    function (addParams) {
+                return addParams
+            }
+        }, {
+            name:     'paramDescription',
+            message:  'Describe this parameter?',
+            validate: function (input) {
+                var namePattern = /^([a-zA-Z]){1}(.){9,}$/
+                if (namePattern.test(input)) {
+                    return true;
+                }
+                else return 'You need to provide a description(must start with a alpha character and be longer than 9 characters)';
+                //TODO:validate if the field already exists in this list
+            },
+            when:     function (addParams) {
+                return addParams
+            }
+        }, {
+            name:     'defValue',
+            message:  "What is the default value?",
+            validate: function (input) {
+                var valPattern = /^[a-zA-Z0-9_:.]+$/
+
+                if (valPattern.test(input)) {
+                    return true;
+                }
+                else return 'You need to provide value';
+                //TODO:validate by field type
+            },
+            when:     function (addParams) {
+                return addParams
+            }
+        }, {
+            type:    'confirm',
+            name:    'addMore',
+            message: "add another parameter?",
+            default: false,
+            when:    function (addParams) {
+                return addParams;
+            }
+        }];
+
+        if (addParams) {
+            console.log(colors.cyan("Adding a new method parameter for the exposed method"));
+            plugins.inquirer.prompt(methodPrompts, function (responses) {
+                methodParams.push({
+                    name:     responses.paramName,
+                    type:     responses.paramType,
+                    description: responses.paramDescription,
+                    defValue: responses.defValue,
+                    override: responses.override
+                });
+                if (responses.addMore) {
+                    newFields(addParams, cb);
+                } else {
+                    console.log("method params", methodParams);
                     cb(responses);
                 }
             });
@@ -147,6 +237,11 @@ module.exports = function (gulp, plugins, options) {
                     return 'Please provide a version number in the format x.y.z, where x,y,z are integers';
             }
         }, {
+            type:    'confirm',
+            name:    'addProps',
+            message: 'Do you want to add option properties to this microlib?',
+            default: false,
+        }, {
             name:     'libExposure',
             message:  'What method do you want to expose from this microlib?',
             validate: function (input) {
@@ -158,8 +253,8 @@ module.exports = function (gulp, plugins, options) {
             }
         }, {
             type:    'confirm',
-            name:    'addProps',
-            message: 'Do you want to add properties to this microlib?',
+            name:    'addParams',
+            message: 'Do you want to add parameters to this exposed method?',
             default: false,
         }, {
             type:    'confirm',
@@ -183,38 +278,21 @@ module.exports = function (gulp, plugins, options) {
                     answers.descHuman = plugins._.humanize(answers.libDescription);
                     answers.libExposureSlug = answers.libExposure.replace(/\s+/g, '');
 
+                    addMethodParams(answers.addParams, function () {
+                        answers.methodParams = methodParams;
+
 //                    console.log('microlib called ' + answers.libNameSlug);
 //                    console.log('microlib desc ' + answers.descHuman);
 //                    console.log('library exposes:' + answers.libExposureSlug);
 
-                    plugins.mkdirp(LIBS_DIRECTORY + answers.libNameSlug);
+                        plugins.mkdirp(LIBS_DIRECTORY + answers.libNameSlug);
 
-                    var templateDir = __dirname + '/../templates/microlib'
-                    var lib_sources = [
-                        templateDir + '/index.ejs',
-                    ];
-
-                    gulp.src(lib_sources).pipe(debug())
-                        .pipe(plugins.template(answers))
-                        .pipe(plugins.rename(function (file) {
-                            if (file.basename[0] === '_') {
-                                file.basename = '.' + file.basename.slice(1);
-                            }
-                            if (file.extname === '.ejs')
-                                file.extname = '.js'
-                        }))
-//                    .pipe(plugins.conflict('./'))
-                        .pipe(gulp.dest('./' + LIBS_DIRECTORY + answers.libNameSlug))
-//                    .pipe(plugins.install())
-                        .on('end', function () {
-                        //
-                        // Include tests
-                        plugins.mkdirp('test/microlibs/' + answers.libNameSlug);
-
-                        var api_test_sources = [
-                            templateDir + '/test/lib-test.ejs'
+                        var templateDir = __dirname + '/../templates/microlib'
+                        var lib_sources = [
+                            templateDir + '/index.ejs',
                         ];
-                        gulp.src(api_test_sources).pipe(debug())
+
+                        gulp.src(lib_sources).pipe(debug())
                             .pipe(plugins.template(answers))
                             .pipe(plugins.rename(function (file) {
                                 if (file.basename[0] === '_') {
@@ -223,21 +301,42 @@ module.exports = function (gulp, plugins, options) {
                                 if (file.extname === '.ejs')
                                     file.extname = '.js'
                             }))
-//                        .pipe(plugins.conflict('./'))
-                            .pipe(gulp.dest('./test/microlibs/' + answers.libNameSlug))
+//                    .pipe(plugins.conflict('./'))
+                            .pipe(gulp.dest('./' + LIBS_DIRECTORY + answers.libNameSlug))
+//                    .pipe(plugins.install())
                             .on('end', function () {
+                                //
+                                // Include tests
+                                plugins.mkdirp('test/microlibs/' + answers.libNameSlug);
+
+                                var api_test_sources = [
+                                    templateDir + '/test/lib-test.ejs'
+                                ];
+                                gulp.src(api_test_sources).pipe(debug())
+                                    .pipe(plugins.template(answers))
+                                    .pipe(plugins.rename(function (file) {
+                                        if (file.basename[0] === '_') {
+                                            file.basename = '.' + file.basename.slice(1);
+                                        }
+                                        if (file.extname === '.ejs')
+                                            file.extname = '.js'
+                                    }))
+//                        .pipe(plugins.conflict('./'))
+                                    .pipe(gulp.dest('./test/microlibs/' + answers.libNameSlug))
+                                    .on('end', function () {
 //                              done();
+                                    });
+                                // Register api with microservice
+                                gulp.src('./manifest.js')
+                                    .pipe(plugins.injectString.before("//<insert new microlib above this line>",
+                                        "'./libs/" + answers.libNameSlug + "': [{\n" +
+                                        "\t\t\t\t//MicroLibrary for " + answers.descHuman + "\n" +
+                                        "\t\t\t\t//exposing method " + answers.libExposureSlug + "\n" +
+                                        "\t\t\t\t//sample call: request.server.plugins['" + answers.libNameSlug + "']." + answers.libExposureSlug + "({...libData}, function (reply,error) { });\n" +
+                                        "\t\t\t}],\n\t\t\t"))
+                                    .pipe(gulp.dest('.'));
                             });
-                            // Register api with microservice
-                            gulp.src('./manifest.js')
-                                .pipe(plugins.injectString.before("//<insert new microlib above this line>",
-                                    "'./libs/" + answers.libNameSlug + "': [{\n" +
-                                    "\t\t\t\t//MicroLibrary for "+ answers.descHuman +"\n" +
-                                    "\t\t\t\t//exposing method "+ answers.libExposureSlug +"\n" +
-                                    "\t\t\t\t//sample call: request.server.plugins['"+answers.libNameSlug+"']."+ answers.libExposureSlug+"({...libData}, function (reply,error) { });\n" +
-                                    "\t\t\t}],\n\t\t\t"))
-                                .pipe(gulp.dest('.'));
-                        });
+                    });
                 });
             });
     });

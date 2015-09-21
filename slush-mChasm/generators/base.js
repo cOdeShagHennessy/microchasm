@@ -97,7 +97,6 @@ module.exports = function (gulp, plugins, options) {
                     });
 
                 runSequence('twiglet', 'microstack', 'sips');
-//                runSequence( 'microstack');
 
                 done();
             });

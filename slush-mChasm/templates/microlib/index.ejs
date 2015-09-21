@@ -5,6 +5,8 @@
  */
 var Joi = require('joi');
 var Logger = require('twiglet')(process.env.DEBUG_LEVEL || 'info', process.env.LOG_STYLE || '');
+//
+//Plugin option schema
 var optionsSchema = Joi.object({
     // <%=libNameSlug%>%> Schema <% _.forEach(fields, function(field){%>
     <%=field.name%>: Joi.<%=(field.type)%>().required().description("<%=field.description%>"),<% }); %>
@@ -12,9 +14,18 @@ var optionsSchema = Joi.object({
     className: "optionSchema",
     description: "<%=descHuman%>"
 });
+//
+//TODO: Add method options schema and validation
+var methodOptionsSchema = Joi.object({
+    // <%=libExposureSlug%>%> Schema <% _.forEach(methodParams, function(methodParam){%>
+    <%=methodParam.name%>: Joi.<%=(methodParam.type)%>().required().description("<%=methodParam.description%>"),<% }); %>
+}).meta({
+    className: "methodOptionSchema",
+    description: "<%=libExposureSlug%>"
+});
 
 var validateOptions = function (options) {
-    Joi.validate(
+    return Joi.validate(
         options,
         optionsSchema, {abortEarly: false, allowUnknown: true}, function (err) {
             if (err) {
@@ -25,10 +36,28 @@ var validateOptions = function (options) {
         });
 };
 
+var validateMethodOptions = function (methodOptions) {
+    return Joi.validate(
+        methodOptions,
+        methodOptionsSchema, {abortEarly: false, allowUnknown: true}, function (err) {
+            if (err) {
+                Logger.error('Error: invalidated %j %s', methodOptions, err);
+                return err;
+            }
+            Logger.trace('validated %j', methodOptions);
+        });
+};
+
 module.exports.register = function (plugin, options, next) {
+    Logger.info("Registered <%=libNameSlug%> with %j", options)
+    var err = validateOptions(options);
+    if (err) {
+        callback(null,err)
+    }
+
     plugin.expose('<%=libExposureSlug%>', function (methodOpts, callback) {
-        Logger.data("Called <%=libExposureSlug%> with %j", methodOpts)
-        var err = validateOptions(methodOpts);
+        Logger.info("Called <%=libNameSlug%>.<%=libExposureSlug%> with %j", methodOpts)
+        var err = validateMethodOptions(methodOpts);
         if (err) {
             callback(null,err)
         }
