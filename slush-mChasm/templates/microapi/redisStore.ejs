@@ -78,8 +78,8 @@ module.exports = function () {
 }
 
 var <%=apiNameSlug%>SeqKey = function () {
-    return '<%=apiNameSlug%>:seq';
+    return '<%=serviceNameSlug%>_<%=apiNameSlug%>:seq';
 };
 var <%=apiNameSlug%>StoreKey = function (uid){
-    return '<%=apiNameSlug%>:' + uid
+    return '<%=serviceNameSlug%>_<%=apiNameSlug%>:' + uid
 };
