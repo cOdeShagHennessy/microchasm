@@ -140,7 +140,7 @@ module.exports = function (gulp, plugins, options) {
                         ""+answers.serviceNameSlug+":\n" +
                         "  build: ./"+answers.serviceNameSlug+"\n" +
                         "  dockerfile: Dockerfile.frombase\n" +
-                        "  command: nodemon server.js\n" +
+                        "  command: nodemon --legacy-watch server.js\n" +
                         "  environment:\n" +
                         "   - DEBUG_LEVEL=debug\n" +
                         "   - NODE_ENV=local_docker\n" +
